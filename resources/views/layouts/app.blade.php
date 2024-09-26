@@ -174,13 +174,14 @@
 
                 $('#submitBtn').text('Saving...').prop('disabled', true);
 
-                var formData = $(this).serialize();
+                var formData = new FormData(this); // Use FormData to handle file uploads
 
                 $.ajax({
                     type: "POST",
                     url: $(this).attr('action'),
                     data: formData,
-
+                    contentType: false, // Important for file upload
+                    processData: false, // Important for file upload
                     success: function(response) {
                         toastr.success(response.success);
                         $('#form')[0].reset();
@@ -201,7 +202,7 @@
                     }
                 });
             });
-            $('#form').submit();
+            $('#form').submit(); // This triggers the submit event
         }
     </script>
 
