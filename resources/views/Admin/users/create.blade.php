@@ -1,4 +1,4 @@
-@extends('Admin.layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="d-flex justify-content-between">
@@ -41,6 +41,7 @@
                     <div class="form-group">
                         <strong>Role:</strong>
                         <select name="roles[]" class="form-select" multiple="multiple">
+                            <option selected disabled>--select Role--</option>
                             @foreach ($roles as $value => $label)
                                 <option value="{{ $value }}">
                                     {{ $label }}
@@ -50,7 +51,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 ">
-                    <button type="submit" class="btn btn-outline-primary btn-sm mt-2 mb-3"><i class="fa-solid fa-floppy-disk"></i>
+                    <button type="submit" class="btn btn-outline-primary btn-md mt-2 mb-3"><i class="fa-solid fa-floppy-disk"></i>
                         Submit</button>
                 </div>
             </div>

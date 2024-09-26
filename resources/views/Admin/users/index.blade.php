@@ -1,4 +1,4 @@
-@extends('Admin.layouts.app')
+@extends('layouts.app')
 @section('title', 'User Management')
 @section('content')
     <div class="d-flex justify-content-between">

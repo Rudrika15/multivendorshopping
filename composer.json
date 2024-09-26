@@ -11,6 +11,7 @@
         "laravel/ui": "^4.5",
         "realrashid/sweet-alert": "^7.2",
         "spatie/laravel-permission": "^6.9",
+        "yajra/laravel-datatables-oracle": "^11.1",
         "yoeunes/toastr": "^3.0"
     },
     "require-dev": {

@@ -7,7 +7,8 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
-    
+use Illuminate\Support\Facades\Validator;
+
 class ProductController extends Controller
 { 
     /**
@@ -51,18 +52,19 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request)
     {
-        request()->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'detail' => 'required',
         ]);
     
-        Product::create($request->all());
+        Product::create($validated);
     
-        return redirect()->back()
-                        ->with('success','Product created successfully.');
+        // Return success response for AJAX
+        return response()->json(['success' => 'Product created successfully.', 'message' => 'Product created successfully.']);
     }
+    
     
     /**
      * Display the specified resource.
@@ -93,18 +95,22 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product): RedirectResponse
+    public function update(Request $request, Product $product)
     {
-         request()->validate([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
             'detail' => 'required',
         ]);
     
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        }
+    
         $product->update($request->all());
     
-        return redirect()->route('products.index')
-                        ->with('success','Product updated successfully');
+        return response()->json(['success' => true, 'message' => 'Product updated successfully']);
     }
+    
     
     /**
      * Remove the specified resource from storage.

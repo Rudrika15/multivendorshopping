@@ -1,4 +1,4 @@
-@extends('Admin.layouts.app')
+@extends('layouts.app')
 
 @section('content')
 
@@ -33,7 +33,7 @@
                 @csrf
                 @method('DELETE')
 
-                <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
+                <button type="submit" class="btn btn-outline-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
             </form>
             @endcan
         </td>

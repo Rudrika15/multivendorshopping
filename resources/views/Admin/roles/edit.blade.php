@@ -1,4 +1,4 @@
-@extends('Admin.layouts.app')
+@extends('layouts.app')
 
 @section('content')
     <div class="d-flex justify-content-between">
@@ -42,8 +42,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                    <button type="submit" class="btn btn-primary btn-sm mb-3"><i class="fa-solid fa-floppy-disk"></i>
+                <div class="col-xs-12 col-sm-12 col-md-12 ">
+                    <button type="submit" class="btn btn-outline-primary btn-md mt-2 mb-3"><i class="fa-solid fa-floppy-disk"></i>
                         Submit</button>
                 </div>
             </div>

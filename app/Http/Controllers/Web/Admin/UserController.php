@@ -21,7 +21,7 @@ class UserController extends Controller
      */
     public function index(Request $request): View
     {
-        $data = User::latest()->paginate(1);
+        $data = User::latest()->paginate(10);
   
         return view('Admin.users.index',compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);

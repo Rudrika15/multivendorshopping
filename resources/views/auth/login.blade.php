@@ -81,7 +81,7 @@
                             <div class="row mb-0">
                                 <div class="col-md-12 d-flex align-items-center justify-content-between"  >
 
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-outline-primary btn-md mt-2 mb-3">
                                         {{ __('Login') }}
                                     </button>
 

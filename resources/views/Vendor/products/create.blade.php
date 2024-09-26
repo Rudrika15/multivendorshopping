@@ -1,4 +1,4 @@
-@extends('Admin.layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="row">
@@ -12,35 +12,29 @@
     </div>
 </div>
 
-
-<form action="{{ route('products.store') }}" method="POST">
+<form id="form" action="{{ route('product.store') }}" method="post">
     @csrf
-
+    {{-- <input type="text" value="{{route('product.store')}}" name="url"> --}}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Name:</strong>
-                <input type="text" name="name" class="form-control" placeholder="Name">
-                @error('name')
-                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>
-                @enderror
+                <input type="text" name="name" id="name" class="form-control" placeholder="Name">
+                <span class="text-danger" id="nameError"></span> <!-- Error message for name -->
             </div>
+
         </div>
+
         <div class="col-xs-12 col-sm-12 col-md-12">
             <div class="form-group">
                 <strong>Detail:</strong>
-                <textarea class="form-control" style="height:150px" name="detail" placeholder="Detail"></textarea>
-                @error('detail')
-                    <div class="alert alert-danger mt-1 mb-1">{{ $message }}</div>  
-                @enderror
+                <textarea class="form-control" style="height:150px" name="detail" id="detail" placeholder="Detail"></textarea>
+                <span class="text-danger" id="detailError"></span> <!-- Error message for detail -->
             </div>
         </div>
-        <div class="col-xs-12 col-sm-12 col-md-12 text-center">
-                <button type="submit" class="btn btn-primary btn-sm mb-3 mt-2"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <button type="submit" id="submitBtn" class="btn btn-outline-primary btn-md mt-2 mb-3"><i class="fa-solid fa-floppy-disk"></i> Submit</button>
         </div>
     </div>
 </form>
-
-
-
 @endsection
