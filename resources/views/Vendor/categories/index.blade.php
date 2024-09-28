@@ -1,5 +1,7 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 @section('content')
     <div class="d-flex justify-content-between">
         <div>
@@ -10,25 +12,11 @@
                 Category</a>
         </div>
     </div>
-    <div class="bg-secondary rounded h-100 p-4 ">
 
-        <table class="table table-bordered">
-            <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Details</th>
-                <th width="280px">Action</th>
-            </tr>
-
-            @foreach ($categories as $category)
-                <tr>
-                    <td>{{ ++$i }}</td>
-                    <td>{{ $category->categoryName }}</td>
-                    <td>{{ $category->categoryIcon }}</td>
-
-                </tr>
-            @endforeach
-        </table>
-    </div>
-    {!! $categories->links() !!}
+    @component('layouts.table', [
+        'tableId' => 'categoryTable',
+        'ajaxUrl' => route('category.index'),
+        'columns' => [['title' => 'Id', 'data' => 'id'], ['title' => 'category Name', 'data' => 'categoryName']],
+    ])
+    @endcomponent
 @endsection

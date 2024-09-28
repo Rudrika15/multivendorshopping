@@ -6,7 +6,7 @@
             <h3>Create Product</h3>
         </div>
         <div>
-            <a href="{{ route('products.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back</a>
+            <a href="{{ route('product.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
     </div>
     <div class="bg-secondary rounded h-100 p-4 ">

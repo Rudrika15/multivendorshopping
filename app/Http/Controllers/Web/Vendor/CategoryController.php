@@ -6,16 +6,32 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
     //
     public function index()
     {
-        $categories = Category::paginate(10);
-        return view('Vendor.categories.index', compact('categories'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
-        // return view('Vendor.categories.index', compact('categories'));
+        if (request()->ajax()) {
+            // Fetch the categories data
+            $categories = Category::all();
+
+            // Return the data in the DataTables format
+            return DataTables::of($categories)
+                ->addIndexColumn() // Add an index column if needed
+                ->addColumn('action', function ($row) {
+                    // Define action buttons (edit, delete, etc.)
+                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
+                ->make(true);
+        }
+
+        // For non-ajax requests, return the view
+        return view('Vendor.categories.index');
     }
     public function create()
     {

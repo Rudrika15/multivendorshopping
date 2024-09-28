@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
 {
@@ -28,12 +29,34 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(): View
-    {
-        $products = Product::latest()->paginate(5);
+    // public function index(): View
+    // {
+    //     $products = Product::latest()->paginate(5);
 
-        return view('Vendor.products.index', compact('products'))
-            ->with('i', (request()->input('page', 1) - 1) * 5);
+    //     return view('Vendor.products.index', compact('products'))
+    //         ->with('i', (request()->input('page', 1) - 1) * 5);
+    // }
+
+    public function index()
+    {
+        if (request()->ajax()) {
+            // Fetch the categories data
+            $products = Product::all();
+
+            // Return the data in the DataTables format
+            return DataTables::of($products)
+                ->addIndexColumn() // Add an index column if needed
+                ->addColumn('action', function ($row) {
+                    // Define action buttons (edit, delete, etc.)
+                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
+                ->make(true);
+        }
+
+        return view('Vendor.products.index');
     }
 
     /**
