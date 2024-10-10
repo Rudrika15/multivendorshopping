@@ -1,57 +1,26 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 @section('content')
-<div class="row">
-    <div class="col-lg-12 margin-tb">
-        <div class="pull-left">
-            <h2>Products</h2>
+    <div class="d-flex justify-content-between">
+        <div>
+            <h3>Product Management</h3>
         </div>
-        <div class="pull-right">
-            @can('product-create')
-            <a class="btn btn-success btn-sm mb-2" href="{{ route('products.create') }}"><i class="fa fa-plus"></i> Create New Product</a>
-            @endcan
+        <div>
+            <a href="{{ route('product.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add
+                Product</a>
         </div>
     </div>
-</div>
 
-@session('success')
-    <div class="alert alert-success" role="alert"> 
-        {{ $value }}
-    </div>
-@endsession
-
-<table class="table table-bordered">
-    <tr>
-        <th>No</th>
-        <th>Name</th>
-        <th>Details</th>
-        <th width="280px">Action</th>
-    </tr>
-    @foreach ($products as $product)
-    <tr>
-        <td>{{ ++$i }}</td>
-        <td>{{ $product->name }}</td>
-        <td>{{ $product->detail }}</td>
-        <td>
-            <form action="{{ route('products.destroy',$product->id) }}" method="POST">
-                <a class="btn btn-info btn-sm" href="{{ route('products.show',$product->id) }}"><i class="fa-solid fa-list"></i> Show</a>
-                @can('product-edit')
-                <a class="btn btn-primary btn-sm" href="{{ route('products.edit',$product->id) }}"><i class="fa-solid fa-pen-to-square"></i> Edit</a>
-                @endcan
-
-                @csrf
-                @method('DELETE')
-
-                @can('product-delete')
-                <button type="submit" class="btn btn-danger btn-sm"><i class="fa-solid fa-trash"></i> Delete</button>
-                @endcan
-            </form>
-        </td>
-    </tr>
-    @endforeach
-</table>
-
-{!! $products->links() !!}
-
-
+    @component('layouts.table', [
+        'tableId' => 'productTable',
+        'ajaxUrl' => route('product.index'),
+        'columns' => [
+            ['title' => 'Id', 'data' => 'id'],
+            ['title' => 'Product Name', 'data' => 'name'],
+            ['title' => 'Detail', 'data' => 'detail'],
+        ],
+    ])
+    @endcomponent
 @endsection

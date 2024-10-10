@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Favicon -->
     <link href="{{ asset('asset/img/favicon.ico') }}" rel="icon">
@@ -167,6 +168,10 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
+    <link rel="stylesheet" href="//cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+
     <script>
         function saveData() {
             $('#form').on('submit', function(e) {
@@ -174,7 +179,7 @@
 
                 $('#submitBtn').text('Saving...').prop('disabled', true);
 
-                var formData = $(this).serialize();
+                var formData = new FormData(this);
 
                 $.ajax({
                     type: "POST",
@@ -201,7 +206,7 @@
                     }
                 });
             });
-            $('#form').submit();
+            $('#form').submit(); // This triggers the submit event
         }
     </script>
 
