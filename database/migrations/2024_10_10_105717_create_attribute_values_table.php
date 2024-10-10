@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_variants', function (Blueprint $table) {
+        Schema::create('attribute_values', function (Blueprint $table) {
             $table->id();
-            $table->integer('productId');
-            $table->string('variantName');
+            $table->integer('attributeId');
+            $table->string('value');
             $table->timestamps();
         });
     }
@@ -24,6 +24,12 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_variants');
+        Schema::dropIfExists('attribute_values');
+        Schema::table('attribute_values', function (Blueprint $table) {
+            $table->dropColumn('attributeId');
+            $table->dropColumn('value');
+
+
+        });
     }
 };

@@ -9,7 +9,7 @@
         <a href="{{ route('users.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back</a>
     </div>
 </div>
-    
+
         <form method="POST" action="{{ route('users.store') }}">
             @csrf
             <div class="row">

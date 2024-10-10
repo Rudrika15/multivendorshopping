@@ -16,7 +16,6 @@ return new class extends Migration
             $table->integer('productVariantValueId');
             $table->string('type');
             $table->string('image');
-            $table->enum('status', ['Active', 'Deactive'])->default('Active');
             $table->timestamps();
         });
     }

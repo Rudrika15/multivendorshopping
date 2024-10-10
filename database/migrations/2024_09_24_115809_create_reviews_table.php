@@ -14,9 +14,6 @@ return new class extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->integer('userId');
-            $table->integer('productVariantValueId');
-            $table->longText('message');
-            $table->date('date');
             $table->timestamps();
         });
     }
