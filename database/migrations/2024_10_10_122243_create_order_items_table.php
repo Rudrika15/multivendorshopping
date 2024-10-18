@@ -16,10 +16,9 @@ return new class extends Migration
             $table->integer('productId');
             $table->integer('productVariantId');
             $table->integer('storeId');
-            $table->string('quantity');
+            $table->integer('quantity');
             $table->integer('price');
-            $table->string('shippedStatus');
-
+            $table->enum('shippedStatus', ['Active', 'Deactive','Pending'])->default('Active');
             $table->timestamps();
         });
     }

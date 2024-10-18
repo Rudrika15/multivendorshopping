@@ -27,9 +27,6 @@ return new class extends Migration
             $table->string('latitude');
             $table->string('longitude');
             $table->enum('status', ['Active', 'Deactive'])->default('Active');
-
-
-
             $table->timestamps();
         });
     }

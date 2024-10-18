@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->integer('orderId');
             $table->string('paymentMethod');
-            $table->string('paymentstatus');
+            $table->enum('paymentStatus', ['Active', 'Deactive','Pending'])->default('Active');
+
             $table->string('amountPaid');
 
             $table->timestamps();

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->integer('storeId');
             $table->string('shippingMethod');
             $table->string('trackingNumber');
-            $table->string('shippedDate');
+            $table->date('shippedDate');
             $table->date('estimateDeliveryDate');
 
             $table->timestamps();
@@ -25,7 +25,7 @@ return new class extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations. 
      */
     public function down(): void
     {

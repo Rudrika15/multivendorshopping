@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('product_variants', function (Blueprint $table) {
-            $table->string('price');
-            $table->string('stock');
+            $table->integer('price');
+            $table->integer('stock');
         });
     }
 
