@@ -92,7 +92,7 @@
                         class="nav-item nav-link @if (Route::currentRouteName() == 'category.index') active @endif"><i
                             class="fa fa-users me-2"></i>Category </a>
                     <a href="{{ route('products.index') }}"
-                        class="nav-item nav-link @if (Route::currentRouteName() == 'products.index') active @endif"><i
+                        class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
                             class="fa fa-users me-2"></i>Product </a>
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"><i
@@ -174,39 +174,35 @@
 
     <script>
         function saveData() {
-            $('#form').on('submit', function(e) {
-                e.preventDefault();
+            var formData = new FormData($('#form')[0]);
 
-                $('#submitBtn').text('Saving...').prop('disabled', true);
+            $('#submitBtn').text('Saving...').prop('disabled', true);
 
-                var formData = new FormData(this);
-
-                $.ajax({
-                    type: "POST",
-                    url: $(this).attr('action'),
-                    data: formData,
-
-                    success: function(response) {
-                        toastr.success(response.success);
-                        $('#form')[0].reset();
-                        $('#submitBtn').text('Submit').prop('disabled', false);
-                    },
-                    error: function(xhr) {
-                        $('#submitBtn').text('Submit').prop('disabled', false);
-                        if (xhr.status === 422) {
-                            var errors = xhr.responseJSON.errors;
-                            $.each(errors, function(field, messages) {
-                                $.each(messages, function(index, message) {
-                                    toastr.error(message);
-                                });
+            $.ajax({
+                type: "POST",
+                url: $('#form').attr('action'),
+                data: formData,
+                processData: false, // required for FormData
+                contentType: false, // required for FormData
+                success: function(response) {
+                    toastr.success(response.success);
+                    $('#form')[0].reset();
+                    $('#submitBtn').text('Submit').prop('disabled', false);
+                },
+                error: function(xhr) {
+                    $('#submitBtn').text('Submit').prop('disabled', false);
+                    if (xhr.status === 422) {
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(field, messages) {
+                            $.each(messages, function(index, message) {
+                                toastr.error(message);
                             });
-                        } else {
-                            toastr.error('Failed to save data.');
-                        }
+                        });
+                    } else {
+                        toastr.error('Failed to save data.');
                     }
-                });
+                }
             });
-            $('#form').submit(); // This triggers the submit event
         }
     </script>
 

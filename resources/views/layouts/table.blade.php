@@ -1,4 +1,4 @@
-<table class="table table-bordered" id="{{ $tableId }}">
+<table class="table table-bordered" id="{{ $tableId }}" style="background-color: #191C24 !important">
     <thead>
         <tr>
             @foreach ($columns as $column)

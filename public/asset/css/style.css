@@ -7,6 +7,11 @@
     --dark: #000000;
 }
 
+.dataTable {
+    background-color: #191C24 !important;
+
+}
+
 .back-to-top {
     position: fixed;
     display: none;
@@ -287,4 +292,20 @@
 .testimonial-carousel .owl-dot.active {
     background: var(--dark);
     border-color: var(--primary);
+}
+
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter,
+.dataTables_wrapper .dataTables_info,
+.dataTables_wrapper .dataTables_processing,
+.dataTables_wrapper .dataTables_paginate {
+    color: var(--light) !important;
+}
+
+a .paginate_button {
+    color: var(--light) !important;
+}
+
+.previous {
+    color: var(--light) !important;
 }
