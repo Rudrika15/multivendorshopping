@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_variants', function (Blueprint $table) {
-            $table->id();
-            $table->integer('productId');
-            $table->string('variantName');
-            $table->timestamps();
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->string('rating');
+            $table->string('reviewText');
         });
     }
 
@@ -24,6 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_variants');
+        Schema::table('reviews', function (Blueprint $table) {
+            $table->dropColumn('rating');
+            $table->dropColumn('reviewText');
+        });
     }
 };

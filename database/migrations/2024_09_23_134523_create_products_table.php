@@ -16,9 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('userId');
             $table->integer('categoryId');
-            $table->string('photo');
-            $table->text('detail');
-            $table->enum('status', ['Active', 'Deactive'])->default('Active');
+            $table->text('description');
             $table->timestamps();
         });
     }

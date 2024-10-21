@@ -14,8 +14,6 @@ return new class extends Migration
         Schema::create('order_masters', function (Blueprint $table) {
             $table->id();
             $table->integer('userId');
-            $table->integer('addressId');
-            $table->integer('contactNo');
             $table->timestamps();
         });
     }

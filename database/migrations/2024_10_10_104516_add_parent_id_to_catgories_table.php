@@ -11,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('product_variants', function (Blueprint $table) {
-            $table->id();
-            $table->integer('productId');
-            $table->string('variantName');
-            $table->timestamps();
+        Schema::table('categories', function (Blueprint $table) {
+            $table->integer('parentId');
         });
     }
 
@@ -24,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('product_variants');
+        Schema::table('categories', function (Blueprint $table) {
+            $table->dropColumn('parentId');
+        });
     }
 };
