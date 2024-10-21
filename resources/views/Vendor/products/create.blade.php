@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Name:</strong>
+                        <strong>Name <sup class="text-danger">*</sup></strong>
                         <input type="text" name="name" id="name" class="form-control" placeholder="Name">
 
                     </div>

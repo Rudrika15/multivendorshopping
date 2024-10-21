@@ -12,16 +12,32 @@
 
 <script type="text/javascript">
     $(document).ready(function() {
+        let photoPath = "{{ asset($photoPath) }}"; // Getting the photo path dynamically
+
         $('#{{ $tableId }}').DataTable({
             processing: false,
             serverSide: true,
             ajax: "{{ $ajaxUrl }}",
             columns: [
                 @foreach ($columns as $column)
-                    {
-                        data: '{{ $column['data'] }}',
-                        name: '{{ $column['data'] }}'
-                    },
+                    @if ($column['data'] === 'photo')
+                        {
+                            data: '{{ $column['data'] }}',
+                            name: '{{ $column['data'] }}',
+                            orderable: false,
+                            searchable: false,
+                            render: function(data) {
+                                return `<img src="${photoPath}/${data}" width="50" height="50" alt="Product Image">`;
+                            }
+                        },
+                    @else
+                        {
+                            data: '{{ $column['data'] }}',
+                            name: '{{ $column['data'] }}',
+                            orderable: {{ $column['orderable'] ?? 'false' }},
+                            searchable: {{ $column['searchable'] ?? 'true' }}
+                        },
+                    @endif
                 @endforeach {
                     data: 'action',
                     name: 'action',
