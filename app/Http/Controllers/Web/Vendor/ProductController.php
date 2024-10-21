@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Vendor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -63,7 +64,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        return view('Vendor.products.create');
+        $categories=Category::all();
+        return view('Vendor.products.create',compact('categories'));
     }
 
     /**
@@ -78,10 +80,13 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'detail' => 'required',
+            'price'=>'required',
         ]);
 
         // Create new product
         $product = new Product();
+        $product->userId = auth()->user()->id;
+
         $product->name = $request->input('name');
 
         // File upload handling
@@ -93,6 +98,8 @@ class ProductController extends Controller
         }
 
         $product->detail = $request->input('detail');
+        $product->price = $request->input('price');
+
         $product->save();
 
         // Return success response for AJAX

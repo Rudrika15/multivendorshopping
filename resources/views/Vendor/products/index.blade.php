@@ -22,6 +22,11 @@
             ['title' => 'Product Name', 'data' => 'name'],
             ['title' => 'Photo', 'data' => 'photo'],
             ['title' => 'Detail', 'data' => 'detail'],
+            ['title' => 'Price', 'data' => 'price'],
+            ['title' => 'slug', 'data' => 'slug '],
+            ['title' => 'Category Name', 'data' => 'categoryName'],
+
+
         ],
     ])
     @endcomponent
