@@ -13,7 +13,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#{{ $tableId }}').DataTable({
-            processing: true,
+            processing: false,
             serverSide: true,
             ajax: "{{ $ajaxUrl }}",
             columns: [
