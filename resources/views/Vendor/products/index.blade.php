@@ -20,6 +20,11 @@
             ['title' => 'Id', 'data' => 'id'],
             ['title' => 'Product Name', 'data' => 'name'],
             ['title' => 'Detail', 'data' => 'detail'],
+            ['title' => 'Price', 'data' => 'price'],
+            ['title' => 'slug', 'data' => 'slug '],
+            ['title' => 'Category Name', 'data' => 'categoryName'],
+
+
         ],
     ])
     @endcomponent
