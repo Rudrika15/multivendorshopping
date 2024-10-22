@@ -1,4 +1,4 @@
-<table class="table table-bordered" id="{{ $tableId }}">
+<table class="table table-bordered" id="{{ $tableId }}" style="background-color: #191C24 !important">
     <thead>
         <tr>
             @foreach ($columns as $column)
@@ -13,7 +13,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $('#{{ $tableId }}').DataTable({
-            processing: true,
+            processing: false,
             serverSide: true,
             ajax: "{{ $ajaxUrl }}",
             columns: [

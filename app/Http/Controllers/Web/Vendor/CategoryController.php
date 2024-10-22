@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Vendor;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -51,7 +52,7 @@ class CategoryController extends Controller
 
         // Create a new category
         $category = new Category();
-        $category->userId = auth()->user()->id;
+        $category->userId = Auth::user()->id;
         $category->categoryName = $request->input('name');
         $category->categoryicon = $request->input('detail');
         $category->save();

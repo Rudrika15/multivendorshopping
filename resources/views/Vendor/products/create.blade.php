@@ -39,6 +39,25 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="form-group">
+                    <strong>Price:</strong>
+                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
+                </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Choose a category:</strong>
+                        <select name="cat_id" id="cat_id" class="form-control">
+                            <option disabled selected>select category</option>
+                            @foreach ($categories as $category)
+                            <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                            @endforeach
+
+                      </select>
+                    </div>
+                    </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
                     <button type="button" id="submitBtn" onclick="checkValidation()"
                         class="btn btn-outline-primary btn-md mt-2
                     mb-3"><i
@@ -53,6 +72,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
     <script>
+        // Trigger validation and form submit on button click
         function checkValidation() {
             toastr.clear();
 
@@ -62,6 +82,10 @@
             }
             if ($('#detail').val().trim() == '') {
                 toastr.error('Please enter detail...');
+                return false;
+            }
+            if ($('#price').val().trim() == '') {
+                toastr.error('Please enter price...');
                 return false;
             }
 

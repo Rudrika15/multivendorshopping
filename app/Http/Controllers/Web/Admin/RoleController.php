@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace App\Http\Controllers\Web\Admin;
 
 
@@ -20,12 +20,12 @@ class RoleController extends Controller
      */
     function __construct()
     {
-         $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
-         $this->middleware('permission:role-create', ['only' => ['create','store']]);
-         $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
-         $this->middleware('permission:role-delete', ['only' => ['destroy']]);
+        //  $this->middleware('permission:role-list|role-create|role-edit|role-delete', ['only' => ['index','store']]);
+        //  $this->middleware('permission:role-create', ['only' => ['create','store']]);
+        //  $this->middleware('permission:role-edit', ['only' => ['edit','update']]);
+        //  $this->middleware('permission:role-delete', ['only' => ['destroy']]);
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -33,11 +33,11 @@ class RoleController extends Controller
      */
     public function index(Request $request): View
     {
-        $roles = Role::orderBy('id','DESC')->paginate(10);
-        return view('Admin.roles.index',compact('roles'))
+        $roles = Role::orderBy('id', 'DESC')->paginate(10);
+        return view('Admin.roles.index', compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -46,9 +46,9 @@ class RoleController extends Controller
     public function create(): View
     {
         $permission = Permission::get();
-        return view('Admin.roles.create',compact('permission'));
+        return view('Admin.roles.create', compact('permission'));
     }
-    
+
     /**
      * Store a newly created resource in storage.
      *
@@ -63,15 +63,17 @@ class RoleController extends Controller
         ]);
 
         $permissionsID = array_map(
-            function($value) { return (int)$value; },
+            function ($value) {
+                return (int)$value;
+            },
             $request->input('permission')
         );
-    
+
         $role = Role::create(['name' => $request->input('name')]);
         $role->syncPermissions($permissionsID);
-    
+
         return redirect()->route('roles.index')
-                        ->with('success','Role created successfully');
+            ->with('success', 'Role created successfully');
     }
     /**
      * Display the specified resource.
@@ -82,13 +84,13 @@ class RoleController extends Controller
     public function show($id): View
     {
         $role = Role::find($id);
-        $rolePermissions = Permission::join("role_has_permissions","role_has_permissions.permission_id","=","permissions.id")
-            ->where("role_has_permissions.role_id",$id)
+        $rolePermissions = Permission::join("role_has_permissions", "role_has_permissions.permission_id", "=", "permissions.id")
+            ->where("role_has_permissions.role_id", $id)
             ->get();
-    
-        return view('Admin.roles.show',compact('role','rolePermissions'));
+
+        return view('Admin.roles.show', compact('role', 'rolePermissions'));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -99,13 +101,13 @@ class RoleController extends Controller
     {
         $role = Role::find($id);
         $permission = Permission::get();
-        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id",$id)
-            ->pluck('role_has_permissions.permission_id','role_has_permissions.permission_id')
+        $rolePermissions = DB::table("role_has_permissions")->where("role_has_permissions.role_id", $id)
+            ->pluck('role_has_permissions.permission_id', 'role_has_permissions.permission_id')
             ->all();
-    
-        return view('Admin.roles.edit',compact('role','permission','rolePermissions'));
+
+        return view('Admin.roles.edit', compact('role', 'permission', 'rolePermissions'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -119,20 +121,22 @@ class RoleController extends Controller
             'name' => 'required',
             'permission' => 'required',
         ]);
-    
+
         $role = Role::find($id);
         $role->name = $request->input('name');
         $role->save();
 
         $permissionsID = array_map(
-            function($value) { return (int)$value; },
+            function ($value) {
+                return (int)$value;
+            },
             $request->input('permission')
         );
-    
+
         $role->syncPermissions($permissionsID);
-    
+
         return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully');
+            ->with('success', 'Role updated successfully');
     }
     /**
      * Remove the specified resource from storage.
@@ -142,8 +146,8 @@ class RoleController extends Controller
      */
     public function destroy($id): RedirectResponse
     {
-        DB::table("roles")->where('id',$id)->delete();
+        DB::table("roles")->where('id', $id)->delete();
         return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully');
+            ->with('success', 'Role deleted successfully');
     }
 }

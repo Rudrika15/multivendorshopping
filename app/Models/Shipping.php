@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Shipping extends Model
 {
     use HasFactory;
+    public function orderItem()
+    {
+        return $this->belongsTo(OrderItem::class,'orderItemId','id');
+    }
+    public function store()
+    {
+        return $this->belongsTo(Store::class,'storeId','id');
+    }
 }
