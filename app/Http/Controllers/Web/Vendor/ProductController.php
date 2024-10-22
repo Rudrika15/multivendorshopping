@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -67,8 +68,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        $categories=Category::all();
-        return view('Vendor.products.create',compact('categories'));
+        $categories = Category::all();
+        return view('Vendor.products.create', compact('categories'));
     }
 
     /**
@@ -83,12 +84,12 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'detail' => 'required',
-            'price'=>'required',
+            'price' => 'required',
         ]);
 
         // Create new product
         $product = new Product();
-        $product->userId = auth()->user()->id;
+        $product->userId = Auth::user()->id;
 
         $product->name = $request->input('name');
 

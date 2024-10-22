@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->integer('oderMasterId');
+            $table->integer('orderMasterId');
             $table->integer('productVariantValueId');
             $table->integer('quantity');
             $table->enum('status', ['Active', 'Deactive'])->default('Active');
