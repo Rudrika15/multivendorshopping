@@ -16,7 +16,7 @@ class CategoryController extends Controller
     {
         if (request()->ajax()) {
             // Fetch the categories data
-            $categories = Category::all();
+            $categories = Category::where('userId', Auth::user()->id)->get();
 
             // Return the data in the DataTables format
             return DataTables::of($categories)
@@ -36,7 +36,8 @@ class CategoryController extends Controller
     }
     public function create()
     {
-        return view('Vendor.categories.create');
+        $categories = Category::all();
+        return view('Vendor.categories.create', compact('categories'));
     }
     public function store(Request $request)
     {
@@ -51,12 +52,24 @@ class CategoryController extends Controller
         // }
 
         // Create a new category
+
         $category = new Category();
         $category->userId = Auth::user()->id;
         $category->categoryName = $request->input('name');
-        $category->categoryicon = $request->input('detail');
-        $category->save();
 
+        if ($request->parentId == "on") {
+            $category->parentId = $request->parentCategory;
+        } else {
+            $category->parentId = "0";
+        }
+
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('categories'), $filename);
+            $category->categoryIcon = $filename;
+        }
+        $category->save();
         return response()->json(['status' => 201, 'success' => 'Category added successfully!']);
     }
 }

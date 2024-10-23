@@ -2,12 +2,16 @@
 
 use App\Http\Controllers\Web\Vendor\ProductController;
 use App\Http\Controllers\web\Vendor\CategoryController;
+use App\Http\Controllers\Web\Vendor\StoreController;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route; // Use the correct namespace for Route
 
 
 
 Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
+
+    Route::get('store/profile', [StoreController::class, 'profile'])->name('store.profile');
+    Route::post('update/profile', [StoreController::class, 'updateProfile'])->name('update.profile');
     Route::resource('products', ProductController::class);
     Route::get('product/index', [ProductController::class, 'index'])->name('product.index');
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');

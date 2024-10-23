@@ -5,12 +5,14 @@ namespace App\Http\Controllers\Web\Vendor;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Store;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -68,7 +70,7 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        $categories = Category::all();
+        $categories = Category::where('userId', Auth::user()->id)->get();
         return view('Vendor.products.create', compact('categories'));
     }
 
@@ -83,26 +85,30 @@ class ProductController extends Controller
         // Validation
         $validated = $request->validate([
             'name' => 'required',
-            'detail' => 'required',
+            'description' => 'required',
             'price' => 'required',
         ]);
 
-        // Create new product
+        // $slug = Str::slug($request->slug);
+        $storeId = Store::where('userId', Auth::user()->id);
+
         $product = new Product();
         $product->userId = Auth::user()->id;
-
         $product->name = $request->input('name');
-
         // File upload handling
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('products'), $filename);
-            $product->photo = $filename;
-        }
-
-        $product->detail = $request->input('detail');
-        $product->price = $request->input('price');
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $file->move(public_path('products'), $filename);
+        //     $product->photo = $filename;
+        // }
+        $product->description = $request->description;
+        $product->price = $request->price;
+        $product->categoryId = $request->c_id;
+        $product->storeId = $storeId;
+        // $product->slug = str_replace(" ","-",'product->name');
+        // $product->slug = $slug;
+        $product->slug = $request->title;
 
         $product->save();
 

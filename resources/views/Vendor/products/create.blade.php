@@ -19,44 +19,37 @@
                     <div class="form-group">
                         <strong>Name:</strong>
                         <input type="text" name="name" id="name" class="form-control" placeholder="Name">
-
                     </div>
-
                 </div>
+
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Photo:</strong>
-                        <input type="file" class="form-control" name="photo" id="photo" placeholder="Detail">
+                        <strong>Description:</strong>
+                        <textarea class="form-control" name="description" id="description" placeholder="Description"></textarea>
 
                     </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
-                        <strong>Detail:</strong>
-                        <textarea class="form-control" name="detail" id="detail" placeholder="Detail"></textarea>
-
-                    </div>
-                </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
-                <div class="form-group">
-                    <strong>Price:</strong>
-                    <input type="text" name="price" id="price" class="form-control" placeholder="Price">
-                </div>
                 </div>
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Choose a category:</strong>
-                        <select name="cat_id" id="cat_id" class="form-control">
+                        <select name="c_id" id="cat_id" class="form-control bg-dark">
                             <option disabled selected>select category</option>
                             @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                                <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
                             @endforeach
 
-                      </select>
+                        </select>
                     </div>
+                </div>
+
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Price:</strong>
+                        <input type="text" name="price" id="price" class="form-control" placeholder="Price">
                     </div>
+                </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <button type="button" id="submitBtn" onclick="checkValidation()"
                         class="btn btn-outline-primary btn-md mt-2
@@ -80,12 +73,16 @@
                 toastr.error('Please enter name...');
                 return false;
             }
-            if ($('#detail').val().trim() == '') {
-                toastr.error('Please enter detail...');
+            if ($('#description').val().trim() == '') {
+                toastr.error('Please enter description...');
                 return false;
             }
             if ($('#price').val().trim() == '') {
                 toastr.error('Please enter price...');
+                return false;
+            }
+            if ($('#cat_id').val().trim() == '') {
+                toastr.error('Please choose category...');
                 return false;
             }
 

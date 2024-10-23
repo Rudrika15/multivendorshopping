@@ -185,12 +185,16 @@
                 processData: false, // required for FormData
                 contentType: false, // required for FormData
                 success: function(response) {
+                    console.log(response);
+
                     toastr.success(response.success);
                     $('#form')[0].reset();
                     $('#submitBtn').text('Submit').prop('disabled', false);
                 },
                 error: function(xhr) {
                     $('#submitBtn').text('Submit').prop('disabled', false);
+
+                    console.log('error', xhr)
                     if (xhr.status === 422) {
                         var errors = xhr.responseJSON.errors;
                         $.each(errors, function(field, messages) {

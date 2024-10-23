@@ -16,7 +16,7 @@
     @component('layouts.table', [
         'tableId' => 'categoryTable',
         'ajaxUrl' => route('category.index'),
-        'columns' => [['title' => 'Id', 'data' => 'id'], ['title' => 'category Name', 'data' => 'categoryName']],
+        'columns' => [['title' => 'Id', 'data' => 'id'], ['title' => 'category Name', 'data' => 'categoryName'], ['title' => 'category Image', 'data' => 'categoryIcon']],
     ])
     @endcomponent
 @endsection

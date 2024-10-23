@@ -23,10 +23,32 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Detail:</strong>
-                        <textarea class="form-control" style="height:150px" name="detail" id="detail" placeholder="Detail"></textarea>
+                        <strong>Image:</strong>
+                        <input type="file" name="photo" id="photo" class="form-control">
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                    <div class="form-check">
+                        <label>
+                            <input class="form-check-input" name="parentId" type="checkbox" id="flexCheckDefault"
+                                onclick="checkbox()">
+                            Is Parent
+                        </label>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12" id="dropdownDiv" style="display: none;">
+                    <div class="form-group">
+                        <select name="parentCategory" id="cat_id" class="form-control bg-dark   ">
+                            <option disabled selected>select category</option>
+
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
+
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <button type="button" id="submitBtn" onclick="checkValidation()"
                         class="btn btn-outline-primary btn-md mt-2 mb-3"><i class="fa-solid fa-floppy-disk"></i>
@@ -49,11 +71,21 @@
             toastr.error('Please enter name...');
             return false;
         }
-        if ($('#detail').val().trim() == '') {
-            toastr.error('Please enter detail...');
+        if ($('#photo').val().trim() == '') {
+            toastr.error('Please choose the file...');
             return false;
         }
 
         saveData();
+    }
+
+    function checkbox() {
+        document.getElementById('flexCheckDefault');
+        const dropdownDiv = document.getElementById('dropdownDiv');
+        if (flexCheckDefault.checked) {
+            dropdownDiv.style.display = 'block';
+        } else {
+            dropdownDiv.style.display = 'none';
+        }
     }
 </script>
