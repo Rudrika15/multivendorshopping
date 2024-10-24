@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('order_masters', function (Blueprint $table) {
-            $table->string('orderStatus');
+            $table->enum('orderStatus', ['Active', 'Deactive','Pending'])->default('Active');
             $table->string('shippingAddress');
             $table->string('paymentMethod');
             $table->integer('totalAmount');

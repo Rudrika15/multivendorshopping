@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 
@@ -85,7 +86,7 @@ class ProductController extends Controller
 
         // Create new product
         $product = new Product();
-        $product->userId = Auth()->user()->id;
+        $product->userId = Auth::user()->id;
 
         $product->name = $request->input('name');
 

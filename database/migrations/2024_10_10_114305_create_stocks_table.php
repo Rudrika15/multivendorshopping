@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('stocks', function (Blueprint $table) {
             $table->id();
             $table->integer('productVariantId');
-            $table->string('qty');
+            $table->integer('qty');
             $table->string('type');
             $table->date('date');
             $table->timestamps();

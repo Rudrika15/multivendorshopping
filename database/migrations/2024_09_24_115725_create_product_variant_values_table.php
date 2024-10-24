@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('productId');
             $table->string('optionName');
-            $table->string('price');
+            $table->integer('price');
             $table->enum('status', ['Active', 'Deactive'])->default('Active');
             $table->timestamps();
         });
