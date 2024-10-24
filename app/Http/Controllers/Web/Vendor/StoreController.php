@@ -28,6 +28,19 @@ class StoreController extends Controller
             $store  = Store::where('userId', $userId)->first();
             $store->storeName = $request->storeName;
             $store->contactNo  = $request->contactNo;
+            if ($request->hasFile('logo')) {
+                   $file = $request->file('logo');
+                     $filename = time() . '.' . $file->getClientOriginalExtension();
+                    $file->move(public_path('stores'), $filename);
+                    $store->logo = $filename;
+                 }
+            $store->address = $request->address;
+            $store->city = $request->city;
+            $store->pincode = $request->pincode;
+            $store->landmark = $request->landmark;
+            $store->aadharCardNo = $request->aadharCardNo;
+            $store->panCardNo = $request->panCardNo;
+            $store->storeDescription = $request->storeDescription;
             $store->save();
         } else {
             return "not found";

@@ -82,33 +82,27 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // Validation
-        $validated = $request->validate([
-            'name' => 'required',
-            'description' => 'required',
-            'price' => 'required',
-        ]);
+
+        // // Validation
+        // $validated = $request->validate([
+        //     'name' => 'required',
+        //     'description' => 'required',
+        //     'price' => 'required',
+        // ]);
 
         // $slug = Str::slug($request->slug);
-        $storeId = Store::where('userId', Auth::user()->id);
+        $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
         $product = new Product();
         $product->userId = Auth::user()->id;
-        $product->name = $request->input('name');
-        // File upload handling
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $file->move(public_path('products'), $filename);
-        //     $product->photo = $filename;
-        // }
+        $product->name = $request->name;
         $product->description = $request->description;
         $product->price = $request->price;
         $product->categoryId = $request->c_id;
         $product->storeId = $storeId;
         // $product->slug = str_replace(" ","-",'product->name');
         // $product->slug = $slug;
-        $product->slug = $request->title;
+        $product->slug = $request->name;
 
         $product->save();
 

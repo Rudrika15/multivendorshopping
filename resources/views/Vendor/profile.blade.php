@@ -42,6 +42,37 @@
                         <input type="text" name="city" id="city" class="form-control" placeholder="Enter Your City">
                     </div>
                 </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Pincode:</strong>
+                        <input type="text" name="pincode" id="pincode" class="form-control" placeholder="Enter Your Pincode">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>Landmark:</strong>
+                        <input type="text" name="landmark" id="landmark" class="form-control" placeholder="Enter Your Landmark">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>AadharCard Number:</strong>
+                        <input type="text" name="aadharCardNo" id="aadharCardNo" class="form-control" placeholder="Enter Your AadharCard Number">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong>PanCard Number:</strong>
+                        <input type="text" name="panCardNo" id="panCardNo" class="form-control" placeholder="Enter Your PanCard Number">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                        <strong> Store Description:</strong>
+                        <textarea class="form-control" name="storeDescription" id="storeDescription" placeholder=" Enter Store Description"></textarea>
+
+                    </div>
+                </div>
 
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -80,6 +111,25 @@
         }
         if ($('#city').val().trim() == '') {
             toastr.error('Please enter City...');
+            return false;
+        }
+        if ($('#pincode').val().trim() == '') {
+            toastr.error('Please enter Pincode...');
+            return false;
+        }
+        if ($('#landmark').val().trim() == '') {
+            toastr.error('Please enter Landmark...');
+            return false;
+        }
+        if ($('#aadharCardNo').val().trim() == '') {
+            toastr.error('Please enter AadharCard Number...');
+            return false;
+        }
+        if ($('#panCardNo').val().trim() == '') {
+            toastr.error('Please enter panCard Number...');
+            return false;
+        } if ($('#storeDescription').val().trim() == '') {
+            toastr.error('Please enter Store Description...');
             return false;
         }
 
