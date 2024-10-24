@@ -41,10 +41,10 @@ class ProductController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $products = Product::all();
+            $products = Product::with('category')->get();
 
             return DataTables::of($products)
-                ->addIndexColumn() 
+                ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
                     $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-primary btn-sm">Delete</a>';
@@ -64,8 +64,8 @@ class ProductController extends Controller
      */
     public function create(): View
     {
-        $categories=Category::all();
-        return view('Vendor.products.create',compact('categories'));
+        $categories = Category::all();
+        return view('Vendor.products.create', compact('categories'));
     }
 
     /**
@@ -80,25 +80,21 @@ class ProductController extends Controller
         $validated = $request->validate([
             'name' => 'required',
             'detail' => 'required',
-            'price'=>'required',
+            'price' => 'required',
         ]);
 
         // Create new product
         $product = new Product();
-        $product->userId = auth()->user()->id;
+        $product->userId = Auth()->user()->id;
 
         $product->name = $request->input('name');
 
-        // File upload handling
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('products'), $filename);
-            $product->photo = $filename;
-        }
 
-        $product->detail = $request->input('detail');
+        $product->description = $request->input('detail');
         $product->price = $request->input('price');
+        $product->categoryId = $request->input('cat_id');
+        $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
+
 
         $product->save();
 

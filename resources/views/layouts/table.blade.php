@@ -1,6 +1,6 @@
 <table class="table table-bordered" id="{{ $tableId }}" style="background-color: #191C24 !important">
     <thead>
-        <tr>
+        <tr style="max-width: 250px">
             @foreach ($columns as $column)
                 <th>{{ $column['title'] }}</th>
             @endforeach

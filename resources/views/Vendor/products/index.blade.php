@@ -15,18 +15,15 @@
 
     @component('layouts.table', [
         'tableId' => 'productTable',
-        'photoPath' => 'products',
+        'photoPath' => '',
         'ajaxUrl' => route('product.index'),
         'columns' => [
             ['title' => 'Id', 'data' => 'id'],
             ['title' => 'Product Name', 'data' => 'name'],
-            ['title' => 'Photo', 'data' => 'photo'],
-            ['title' => 'Detail', 'data' => 'detail'],
+            ['title' => 'Detail', 'data' => 'description'],
             ['title' => 'Price', 'data' => 'price'],
             ['title' => 'slug', 'data' => 'slug '],
-            ['title' => 'Category Name', 'data' => 'categoryName'],
-
-
+            ['title' => 'Category Name', 'data' => 'categoryId'],
         ],
     ])
     @endcomponent
