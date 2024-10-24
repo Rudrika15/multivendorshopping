@@ -13,6 +13,7 @@
 <script type="text/javascript">
     $(document).ready(function() {
         let photoPath = "{{ asset($photoPath) }}"; // Getting the photo path dynamically
+        let imageFields = {!! json_encode($imageFields) !!};
 
         $('#{{ $tableId }}').DataTable({
             processing: false,
@@ -20,14 +21,14 @@
             ajax: "{{ $ajaxUrl }}",
             columns: [
                 @foreach ($columns as $column)
-                    @if ($column['data'] === 'photo')
+                    @if (in_array($column['data'], $imageFields))
                         {
                             data: '{{ $column['data'] }}',
                             name: '{{ $column['data'] }}',
                             orderable: false,
                             searchable: false,
                             render: function(data) {
-                                return `<img src="${photoPath}/${data}" width="50" height="50" alt="Product Image">`;
+                                return `<img src="${photoPath}/${data}" width="50" height="50" alt="category     Image">`;
                             }
                         },
                     @else

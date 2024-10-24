@@ -20,9 +20,9 @@
         'columns' => [
             ['title' => 'Id', 'data' => 'id'],
             ['title' => 'Product Name', 'data' => 'name'],
-            ['title' => 'description', 'data' => 'description'],
+            ['title' => 'Description', 'data' => 'description'],
             ['title' => 'Price', 'data' => 'price'],
-            ['title' => 'slug', 'data' => 'slug '],
+            ['title' => 'Slug', 'data' => 'slug'],
             ['title' => 'Category Name', 'data' => 'categoryId'],
         ],
     ])

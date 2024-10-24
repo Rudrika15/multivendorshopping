@@ -14,10 +14,15 @@
     </div>
 
     @component('layouts.table', [
-        'photoPath' => '',
+        'photoPath' => 'categories',
         'tableId' => 'categoryTable',
         'ajaxUrl' => route('category.index'),
-        'columns' => [['title' => 'Id', 'data' => 'id'], ['title' => 'category Name', 'data' => 'categoryName'], ['title' => 'category Image', 'data' => 'categoryIcon']],
+        'columns' => [
+            ['title' => 'Id', 'data' => 'id'],
+            ['title' => 'category Name', 'data' => 'categoryName'],
+            ['title' => 'category Image', 'data' => 'categoryIcon'],
+        ],
+        'imageFields' => ['categoryIcon'],
     ])
     @endcomponent
 @endsection
