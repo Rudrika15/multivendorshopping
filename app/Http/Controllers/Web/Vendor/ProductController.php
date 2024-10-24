@@ -94,14 +94,11 @@ class ProductController extends Controller
         $product->userId = Auth::user()->id;
 
         $product->name = $request->input('name');
-
-
         $product->description = $request->input('detail');
         $product->price = $request->input('price');
         $product->categoryId = $request->input('cat_id');
         $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
-
-
+        $product->store = $storeId;
         $product->save();
 
         // Return success response for AJAX
