@@ -310,8 +310,25 @@ a .paginate_button {
     color: var(--light) !important;
 } */
 
+.table {
+
+    border: 1px solid var(--primary) !important;
+    background-color: var(--secondary) !important;
+}
+
+.dataTable {
+
+    border: 1px solid var(--primary) !important;
+    background-color: var(--secondary) !important;
+}
 
 /* Change the table row hover color */
+table.dataTable {
+
+    border: 1px solid var(--primary) !important;
+}
+
+
 table.dataTable tbody tr {
     background-color: var(--secondary) !important;
     /* Change to your desired hover color */
@@ -322,6 +339,7 @@ table.dataTable tbody tr:hover {
     background-color: var(--dark)
         /* Change to your desired hover color */
 }
+
 
 /* Change the pagination button styles */
 .dataTables_paginate .paginate_button {

@@ -16,6 +16,7 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::get('product/index', [ProductController::class, 'index'])->name('product.index');
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('product/store', [ProductController::class, 'store'])->name('product.store');
+    Route::delete('product/delete', [ProductController::class, 'store'])->name('product.destroy');
 
     Route::get('category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');

@@ -44,16 +44,13 @@ class ProductController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            // Fetch the categories data
-            $products = Product::all();
+            $products = Product::with('category')->get();
 
-            // Return the data in the DataTables format
             return DataTables::of($products)
-                ->addIndexColumn() // Add an index column if needed
+                ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    // Define action buttons (edit, delete, etc.)
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-primary btn-sm">Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -95,14 +92,15 @@ class ProductController extends Controller
 
         $product = new Product();
         $product->userId = Auth::user()->id;
-        $product->name = $request->name;
-        $product->description = $request->description;
-        $product->price = $request->price;
-        $product->categoryId = $request->c_id;
-        $product->storeId = $storeId;
-        // $product->slug = str_replace(" ","-",'product->name');
-        // $product->slug = $slug;
-        $product->slug = $request->name;
+
+        $product->name = $request->input('name');
+
+
+        $product->description = $request->input('detail');
+        $product->price = $request->input('price');
+        $product->categoryId = $request->input('cat_id');
+        $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
+
 
         $product->save();
 
