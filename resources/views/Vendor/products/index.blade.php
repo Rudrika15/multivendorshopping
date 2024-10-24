@@ -23,8 +23,9 @@
             ['title' => 'Description', 'data' => 'description'],
             ['title' => 'Price', 'data' => 'price'],
             ['title' => 'Slug', 'data' => 'slug'],
-            ['title' => 'Category Name', 'data' => 'categoryId'],
+            ['title' => 'Category Id', 'data' => 'categoryId'],
         ],
+        'imageFields' => [''],
     ])
     @endcomponent
 

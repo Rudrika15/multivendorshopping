@@ -33,7 +33,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Address:</strong>
-                        <textarea class="form-control" name="address" id="adress" placeholder="Enter Your Address "></textarea>
+                        <textarea class="form-control" name="address" id="address" placeholder="Enter Your Address "></textarea>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -128,7 +128,8 @@
         if ($('#panCardNo').val().trim() == '') {
             toastr.error('Please enter panCard Number...');
             return false;
-        } if ($('#storeDescription').val().trim() == '') {
+        }
+        if ($('#storeDescription').val().trim() == '') {
             toastr.error('Please enter Store Description...');
             return false;
         }

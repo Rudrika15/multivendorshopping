@@ -50,7 +50,7 @@ class ProductController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-primary btn-sm">Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class=" delete btn btn-danger btn-sm">Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -95,7 +95,7 @@ class ProductController extends Controller
 
         $product->name = $request->input('name');
         $product->description = $request->input('description');
-        $product->price = $request->input('price'); 
+        $product->price = $request->input('price');
         $product->categoryId = $request->input('c_id');
         $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
         $product->storeId = $storeId;
