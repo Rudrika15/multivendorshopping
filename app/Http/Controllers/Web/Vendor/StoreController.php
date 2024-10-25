@@ -11,12 +11,22 @@ use Illuminate\Support\Facades\Auth;
 class StoreController extends Controller
 {
 
+
+    public function create()
+    {
+        $user = User::find(Auth::user()->id);
+
+        return view('Vendor.stores.create', compact('user'));
+    }
+
+
     public function profile()
     {
         $user = User::find(Auth::user()->id);
 
         return view('Vendor.profile', compact('user'));
     }
+
 
     public function updateProfile(Request $request)
     {

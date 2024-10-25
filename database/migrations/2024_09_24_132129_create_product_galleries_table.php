@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('product_galleries', function (Blueprint $table) {
             $table->id();
-            $table->integer('productVariantValueId');
+            $table->integer('productVariantId');
             $table->string('type');
             $table->string('image');
             $table->timestamps();

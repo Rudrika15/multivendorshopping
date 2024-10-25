@@ -25,7 +25,7 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Description:</strong>
+                        <strong>Description:<sup class="text-danger">*</sup></strong>
                         <textarea class="form-control" name="description" id="description" placeholder="Description"></textarea>
 
                     </div>
@@ -33,7 +33,7 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Choose a category:</strong>
+                        <strong>Choose a category:<sup class="text-danger">*</sup></strong>
                         <select name="c_id" id="cat_id" class="form-control bg-dark">
                             <option disabled selected>select category</option>
                             @foreach ($categories as $category)
@@ -46,7 +46,7 @@
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Price:</strong>
+                        <strong>Price:<sup class="text-danger">*</sup></strong>
                         <input type="text" name="price" id="price" class="form-control" placeholder="Price">
                     </div>
                 </div>

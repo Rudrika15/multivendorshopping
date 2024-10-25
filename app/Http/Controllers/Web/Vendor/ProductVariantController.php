@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers\Web\Vendor;
+
+use App\Http\Controllers\Controller;
+use App\Models\ProductVariant;
+use App\Models\Product;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Yajra\DataTables\DataTables;
+
+class ProductVariantController extends Controller
+{
+
+
+    public function index()
+    {
+        if (request()->ajax()) {
+            $productVariants = ProductVariant::with('product')->get();
+
+            return DataTables::of($productVariants)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class=" delete btn btn-danger btn-sm">Delete</a>';
+                    return $btn;
+                })
+                ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
+                ->make(true);
+        }
+
+        return view('Vendor.productVariants.index');
+    }
+    public function create()
+    {
+        $products = Product::all();
+
+        return view('Vendor.productVariants.create',compact('products'));
+    }
+
+
+
+    public function store(Request $request)
+    {
+
+        // // Validation
+        // $validated = $request->validate([
+        //     'name' => 'required',
+        //     'price' => 'required',
+        // ]);
+
+        $productVariant = new ProductVariant();
+
+        $productVariant->variantName = $request->variantName;
+        $productVariant->productId = $request->proId;
+        $productVariant->price = $request->price;
+        $productVariant->stock = $request->stock;
+
+        $productVariant->save();
+
+        // Return success response for AJAX
+        return response()->json(['success' => 'Product Variant created successfully.']);
+    }
+
+}

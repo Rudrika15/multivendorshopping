@@ -94,6 +94,10 @@
                     <a href="{{ route('products.index') }}"
                         class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
                             class="fa fa-users me-2"></i>Product </a>
+                            <a href="{{ route('store.create') }}"
+                        class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
+                            class="fa fa-users me-2"></i>Add store</a>
+
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"><i
                                 class="far fa-file-alt me-2"></i>Pages</a>
