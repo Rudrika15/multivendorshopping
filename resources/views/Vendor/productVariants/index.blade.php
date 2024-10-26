@@ -9,18 +9,19 @@
             <h3>Product Variant Management</h3>
         </div>
         <div>
-            <a href="{{ route('productVariant.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product Variant</a>
+            <a href="{{ route('productVariant.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product
+                Variant</a>
         </div>
     </div>
 
     @component('layouts.table', [
         'tableId' => 'productVariantTable',
         'photoPath' => '',
-        'ajaxUrl' => route('productVariant.index'),
+        'ajaxUrl' => route('productVariant.index'), 
         'columns' => [
             ['title' => 'Id', 'data' => 'id'],
             ['title' => 'Variant Name', 'data' => 'variantName'],
-            ['title' => 'Category Id', 'data' => 'productId'],
+            ['title' => 'Product Id', 'data' => 'productId'],
             ['title' => 'Price', 'data' => 'price'],
             ['title' => 'stock', 'data' => 'stock'],
         ],

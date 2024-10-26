@@ -41,6 +41,12 @@ class AttributeValueController extends Controller
     }
     public function store(Request $request)
     {
+         // // Validation
+        // $validated = $request->validate([
+        //     'value' => 'required',
+        //      'attributeId' => 'required',
+        // ]);
+        
         $attributeValue = new AttributeValue();
         $attributeValue->value = $request->value;
         $attributeValue->attributeId = $request->attrId;

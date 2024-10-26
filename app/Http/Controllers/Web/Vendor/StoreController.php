@@ -50,6 +50,8 @@ class StoreController extends Controller
             $store->landmark = $request->landmark;
             $store->aadharCardNo = $request->aadharCardNo;
             $store->panCardNo = $request->panCardNo;
+            $store->gst = $request->gst;
+
             $store->storeDescription = $request->storeDescription;
             $store->save();
         } else {

@@ -68,6 +68,12 @@
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
+                        <strong>Gst Number:</strong>
+                        <input type="text" name="gst" id="gst" class="form-control" placeholder="Enter Your Gst Number">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group">
                         <strong> Store Description:</strong>
                         <textarea class="form-control" name="storeDescription" id="storeDescription" placeholder=" Enter Store Description"></textarea>
 
@@ -127,6 +133,10 @@
         }
         if ($('#panCardNo').val().trim() == '') {
             toastr.error('Please enter panCard Number...');
+            return false;
+        }
+        if ($('#gst').val().trim() == '') {
+            toastr.error('Please enter gst Number...');
             return false;
         }
         if ($('#storeDescription').val().trim() == '') {

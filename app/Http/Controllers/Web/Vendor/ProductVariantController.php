@@ -49,6 +49,7 @@ class ProductVariantController extends Controller
         // $validated = $request->validate([
         //     'name' => 'required',
         //     'price' => 'required',
+        //      'stock' => 'required',
         // ]);
 
         $productVariant = new ProductVariant();

@@ -42,6 +42,12 @@ class AttributeController extends Controller
     }
     public function store(Request $request)
     {
+
+         // // Validation
+        // $validated = $request->validate([
+        //     'name' => 'required',
+        //      'categoryId' => 'required',
+        // ]);
         $attribute = new  Attribute();
         $attribute->name = $request->name;
         $attribute->categoryId = $request->catId;
