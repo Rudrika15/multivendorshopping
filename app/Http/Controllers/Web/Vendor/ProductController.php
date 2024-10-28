@@ -44,7 +44,7 @@ class ProductController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $products = Product::with('category')->get();
+            $products = Product::where('userId', Auth::user()->id)->get();
 
             return DataTables::of($products)
                 ->addIndexColumn()

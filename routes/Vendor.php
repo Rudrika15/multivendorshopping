@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\Route; // Use the correct namespace for Route
 Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
 
     Route::get('store/profile', [StoreController::class, 'profile'])->name('store.profile');
-    Route::get('store/create', [StoreController::class, 'create'])->name('store.create');
 
     Route::post('update/profile', [StoreController::class, 'updateProfile'])->name('update.profile');
 

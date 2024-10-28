@@ -12,12 +12,7 @@ class StoreController extends Controller
 {
 
 
-    public function create()
-    {
-        $user = User::find(Auth::user()->id);
-
-        return view('Vendor.stores.create', compact('user'));
-    }
+   
 
 
     public function profile()
