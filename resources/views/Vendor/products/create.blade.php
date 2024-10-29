@@ -51,6 +51,12 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
+                    <div class="form-group" >
+                        <strong>Image:<sup class="text-danger">*</sup></strong>
+                        <input type="file" name="photo" id="photo" class="form-control" style="background-color: #30333a">
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12">
                     <button type="button" id="submitBtn" onclick="checkValidation()"
                         class="btn btn-outline-primary btn-md mt-2
                     mb-3"><i
@@ -85,6 +91,11 @@
                 toastr.error('Please choose category...');
                 return false;
             }
+            if ($('#photo').val().trim() == '') {
+                toastr.error('Please choose photo...');
+                return false;
+            }
+
 
             saveData();
         }

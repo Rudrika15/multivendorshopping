@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Store;
+use App\Models\productGallery;
+
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -83,11 +85,14 @@ class ProductController extends Controller
         // // Validation
         // $validated = $request->validate([
         //     'name' => 'required',
-        //     'description' => 'required',
-        //     'price' => 'required',
+        //     'image' => 'required',
         // ]);
 
         // $slug = Str::slug($request->slug);
+
+
+
+
         $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
         $product = new Product();
@@ -99,7 +104,21 @@ class ProductController extends Controller
         $product->categoryId = $request->input('c_id');
         $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
         $product->storeId = $storeId;
+
         $product->save();
+
+
+        $productGallery = new productGallery();
+        $productGallery->productId = $product->id;
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('products'), $filename);
+            $productGallery->Image = $filename;
+        }
+
+
+        $productGallery->save();
 
         // Return success response for AJAX
         return response()->json(['success' => 'Product created successfully.']);
