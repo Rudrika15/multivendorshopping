@@ -108,18 +108,27 @@ class ProductController extends Controller
         $product->save();
 
 
+        // $productGallery = new productGallery();
+        // $productGallery->productId = $product->id;
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $file->move(public_path('products'), $filename);
+        //     $productGallery->imageURL = $filename;
+        // }
+        // $productGallery->save();
+
+
+
         $productGallery = new productGallery();
-        $productGallery->productId = $product->id;
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
+        foreach ($request->file('images') as $productGallery->imageURL) {
+             $file = $request->file('photo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('products'), $filename);
-            $productGallery->Image = $filename;
-        }
-
-
-        $productGallery->save();
-
+             $file->move(public_path('products'), $filename);
+            $productGallery->imageURL = $filename;
+            $productGallery->productId = $product->id;
+            $productGallery->save();
+          }
         // Return success response for AJAX
         return response()->json(['success' => 'Product created successfully.']);
     }

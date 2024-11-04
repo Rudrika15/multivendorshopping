@@ -53,14 +53,13 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group" >
                         <strong>Image:<sup class="text-danger">*</sup></strong>
-                        <input type="file" name="photo" id="photo" class="form-control" style="background-color: #30333a">
+                        <input type="file" name="images" id="photo" class="form-control" style="background-color: #30333a" multiple>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <button type="button" id="submitBtn" onclick="checkValidation()"
-                        class="btn btn-outline-primary btn-md mt-2
-                    mb-3"><i
-                            class="fa-solid fa-floppy-disk"></i> Submit</button>
+                        class="btn btn-outline-primary btn-md mt-2 mb-3">
+                        <i class="fa-solid fa-floppy-disk"></i> Submit</button>
                 </div>
             </div>
         </form>

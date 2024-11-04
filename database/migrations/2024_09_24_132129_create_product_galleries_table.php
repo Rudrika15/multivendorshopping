@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->integer('productVariantId');
             $table->string('type');
-            $table->string('image');
             $table->timestamps();
         });
     }

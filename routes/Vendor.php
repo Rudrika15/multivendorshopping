@@ -8,7 +8,7 @@ use App\Http\Controllers\Web\Vendor\AttributeValueController;
 
 
 use App\Http\Controllers\Web\Vendor\ProductVariantController;
-
+use App\Http\Controllers\Web\Vendor\ReviewController;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route; // Use the correct namespace for Route
 
@@ -43,6 +43,10 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::get('attributeValue/index', [AttributeValueController::class, 'index'])->name('attributeValue.index');
     Route::get('attributeValue/create', [AttributeValueController::class, 'create'])->name('attributeValue.create');
     Route::post('attributeValue/store',[AttributeValueController::class,'store'])->name('attributeValue.store');
+
+
+
+    Route::get('review/index', [ReviewController::class, 'index'])->name('review.index');
 
 
 });
