@@ -93,6 +93,10 @@ class ProductController extends Controller
 
 
 
+        
+
+
+
         $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
         $product = new Product();
