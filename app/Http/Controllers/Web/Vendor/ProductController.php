@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Web\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Attribute;
+
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\productGallery;
-
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -70,7 +71,9 @@ class ProductController extends Controller
     public function create(): View
     {
         $categories = Category::where('userId', Auth::user()->id)->get();
-        return view('Vendor.products.create', compact('categories'));
+        $attributes = Attribute::all();
+
+        return view('Vendor.products.create', compact('categories','attributes'));
     }
 
     /**
@@ -90,13 +93,6 @@ class ProductController extends Controller
 
         // $slug = Str::slug($request->slug);
 
-
-
-
-        
-
-
-
         $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
         $product = new Product();
@@ -112,27 +108,26 @@ class ProductController extends Controller
         $product->save();
 
 
-        // $productGallery = new productGallery();
-        // $productGallery->productId = $product->id;
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $file->move(public_path('products'), $filename);
-        //     $productGallery->imageURL = $filename;
-        // }
-        // $productGallery->save();
-
-
-
         $productGallery = new productGallery();
-        foreach ($request->file('images') as $productGallery->imageURL) {
-             $file = $request->file('photo');
+        $productGallery->productId = $product->id;
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-             $file->move(public_path('products'), $filename);
+            $file->move(public_path('products'), $filename);
             $productGallery->imageURL = $filename;
-            $productGallery->productId = $product->id;
-            $productGallery->save();
-          }
+        }
+        $productGallery->save();
+
+
+        // $productGallery = new productGallery();
+        // foreach ($request->file('images') as $productGallery->imageURL) {
+        //      $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //      $file->move(public_path('products'), $filename);
+        //     $productGallery->imageURL = $filename;
+        //     $productGallery->productId = $product->id;
+        //     // $productGallery->save();
+        //   }
         // Return success response for AJAX
         return response()->json(['success' => 'Product created successfully.']);
     }

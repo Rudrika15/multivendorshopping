@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('reviews', function (Blueprint $table) {
             $table->string('rating');
+            $table->integer('productId');
             $table->string('reviewText');
         });
     }
@@ -25,6 +26,8 @@ return new class extends Migration
         Schema::table('reviews', function (Blueprint $table) {
             $table->dropColumn('rating');
             $table->dropColumn('reviewText');
+            $table->dropColumn('productId');
+
         });
     }
 };
