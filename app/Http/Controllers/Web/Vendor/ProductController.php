@@ -73,7 +73,7 @@ class ProductController extends Controller
         $categories = Category::where('userId', Auth::user()->id)->get();
         $attributes = Attribute::all();
 
-        return view('Vendor.products.create', compact('categories','attributes'));
+        return view('Vendor.products.create', compact('categories', 'attributes'));
     }
 
     /**
@@ -126,9 +126,9 @@ class ProductController extends Controller
         //      $file->move(public_path('products'), $filename);
         //     $productGallery->imageURL = $filename;
         //     $productGallery->productId = $product->id;
-        //     // $productGallery->save();
+        //      $productGallery->save();
         //   }
-        // Return success response for AJAX
+        //  Return success response for AJAX
         return response()->json(['success' => 'Product created successfully.']);
     }
 
@@ -185,8 +185,9 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product): RedirectResponse
+    public function destroy($id)
     {
+        $product = Product::find($id);
         $product->delete();
 
         return redirect()->route('products.index')

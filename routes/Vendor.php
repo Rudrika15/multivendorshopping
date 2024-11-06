@@ -25,7 +25,7 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::get('product/index', [ProductController::class, 'index'])->name('product.index');
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('product/store', [ProductController::class, 'store'])->name('product.store');
-    Route::delete('product/delete', [ProductController::class, 'store'])->name('product.destroy');
+    Route::get('product/delete/{id?}', [ProductController::class, 'destroy'])->name('product.destroy');
 
     Route::get('category', [CategoryController::class, 'index'])->name('category.index');
     Route::get('category/create', [CategoryController::class, 'create'])->name('category.create');
@@ -37,16 +37,14 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
 
     Route::get('attribute/index', [AttributeController::class, 'index'])->name('attribute.index');
     Route::get('attribute/create', [AttributeController::class, 'create'])->name('attribute.create');
-    Route::post('attribute/store',[AttributeController::class,'store'])->name('attribute.store');
+    Route::post('attribute/store', [AttributeController::class, 'store'])->name('attribute.store');
 
 
     Route::get('attributeValue/index', [AttributeValueController::class, 'index'])->name('attributeValue.index');
     Route::get('attributeValue/create', [AttributeValueController::class, 'create'])->name('attributeValue.create');
-    Route::post('attributeValue/store',[AttributeValueController::class,'store'])->name('attributeValue.store');
+    Route::post('attributeValue/store', [AttributeValueController::class, 'store'])->name('attributeValue.store');
 
 
 
     Route::get('review/index', [ReviewController::class, 'index'])->name('review.index');
-
-
 });

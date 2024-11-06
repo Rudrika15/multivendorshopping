@@ -28,23 +28,25 @@
         'imageFields' => [''],
     ])
     @endcomponent
-
     <script>
         $(document).ready(function() {
             $('#productTable').DataTable();
 
             $(document).on('click', '.delete', function() {
                 var id = $(this).data('id');
+
+
                 if (confirm("Are you sure you want to delete this product?")) {
                     $.ajax({
                         url: "{{ route('product.destroy', ':id') }}".replace(':id',
                             id),
-                        type: 'DELETE',
+                        type: 'GET',
                         data: {
                             _token: "{{ csrf_token() }}"
                         },
                         success: function(response) {
-                            if (response.success) {
+                            console.log("resposne", response)
+                            if (response) {
                                 toastr.success('Product deleted successfully.');
                                 $('#productTable').DataTable().ajax
                                     .reload();
