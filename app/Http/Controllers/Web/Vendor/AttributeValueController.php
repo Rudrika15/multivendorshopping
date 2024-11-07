@@ -24,7 +24,7 @@ class AttributeValueController extends Controller
                 ->addColumn('action', function ($row) {
                     // Define action buttons (edit, delete, etc.)
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#attributeValueTable" data-url="' . route("attributeValue.destroy", ':id') . '" >Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -46,7 +46,7 @@ class AttributeValueController extends Controller
         //     'value' => 'required',
         //      'attributeId' => 'required',
         // ]);
-        
+
         $attributeValue = new AttributeValue();
         $attributeValue->value = $request->value;
         $attributeValue->attributeId = $request->attrId;
@@ -54,5 +54,13 @@ class AttributeValueController extends Controller
         $attributeValue->save();
         return response()->json(['success' => 'Attribute Value Created Successfully.']);
 
+    }
+    public function destroy($id)
+    {
+        $attributeValue = AttributeValue::find($id);
+        $attributeValue->delete();
+
+        return redirect()->route('attributeValue.index')
+            ->with('success', 'Attribute Value Deleted Successfully');
     }
 }

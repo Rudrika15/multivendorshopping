@@ -24,7 +24,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Image:<sup class="text-danger">*</sup></strong>
-                        <input type="file" name="photo" id="photo" class="form-control">
+                        <input type="file" name="photo" id="photo" class="form-control" style="background-color: #30333a">
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 mt-2">

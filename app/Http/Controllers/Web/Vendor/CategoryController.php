@@ -24,7 +24,7 @@ class CategoryController extends Controller
                 ->addColumn('action', function ($row) {
                     // Define action buttons (edit, delete, etc.)
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#categoryTable" data-url="' . route("category.destroy", ':id') . '" >Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -72,4 +72,13 @@ class CategoryController extends Controller
         $category->save();
         return response()->json(['status' => 201, 'success' => 'Category added successfully!']);
     }
+    public function destroy($id)
+    {
+        $category = Category::find($id);
+        $category->delete();
+
+        return redirect()->route('category.index')
+            ->with('success', 'Category Deleted Successfully');
+    }
+
 }

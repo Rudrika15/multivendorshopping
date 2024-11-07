@@ -28,7 +28,7 @@
         'imageFields' => [''],
     ])
     @endcomponent
-    <script>
+    {{-- <script>
         $(document).ready(function() {
             $('#productTable').DataTable();
 
@@ -66,5 +66,6 @@
                 }
             });
         });
-    </script>
+    </script> --}}
+    
 @endsection

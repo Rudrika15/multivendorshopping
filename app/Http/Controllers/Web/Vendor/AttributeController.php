@@ -25,7 +25,7 @@ class AttributeController extends Controller
                 ->addColumn('action', function ($row) {
                     // Define action buttons (edit, delete, etc.)
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#attributeTable" data-url="' . route("attribute.destroy", ':id') . '" >Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -54,5 +54,13 @@ class AttributeController extends Controller
 
         $attribute->save();
         return response()->json(['success' => 'Attribute Created Successfully.']);
+    }
+    public function destroy($id)
+    {
+        $attribute = Attribute::find($id);
+        $attribute->delete();
+
+        return redirect()->route('attribute.index')
+            ->with('success', 'Attribute Deleted Successfully');
     }
 }

@@ -24,7 +24,7 @@ class ProductVariantController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class=" delete btn btn-danger btn-sm">Delete</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#productVariantTable" data-url="' . route("productVariant.destroy", ':id') . '" >Delete</a>';
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -64,5 +64,12 @@ class ProductVariantController extends Controller
         // Return success response for AJAX
         return response()->json(['success' => 'Product Variant created successfully.']);
     }
+    public function destroy($id)
+    {
+        $productVariant = ProductVariant::find($id);
+        $productVariant->delete();
 
+        return redirect()->route('productVariant.index')
+            ->with('success', 'Product Variant Deleted Successfully');
+    }
 }

@@ -94,7 +94,7 @@
                     <a href="{{ route('products.index') }}"
                         class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
                             class="fa fa-users me-2"></i>Product </a>
-                            <a href="{{ route('store.create') }}"
+                    <a href="{{ route('store.create') }}"
                         class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
                             class="fa fa-users me-2"></i>Add store</a>
 
@@ -212,6 +212,53 @@
                 }
             });
         }
+
+
+
+        $(document).ready(function() {
+            // Initialize DataTable (this can be generalized if needed for multiple tables)
+            $('.data-table').each(function() {
+                $(this).DataTable();
+            });
+
+            // Attach a click event to the delete button
+            $(document).on('click', '.delete', function() {
+                var id = $(this).data('id');
+                var route = $(this).data('url');
+                console.log("route", route);
+
+                var tableSelector = $(this).data('table');
+
+                if (confirm("Are you sure you want to delete this item?")) {
+                    $.ajax({
+                        url: route.replace(':id', id),
+                        type: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log("response", response);
+                            if (response) {
+                                toastr.success('Item Deleted Successfully.');
+                                $(tableSelector).DataTable().ajax.reload();
+                            } else {
+                                toastr.error(response.message || 'Something went wrong.');
+                            }
+                        },
+                        error: function(xhr) {
+                            let errors = xhr.responseJSON && xhr.responseJSON.errors;
+                            if (errors) {
+                                $.each(errors, function(key, value) {
+                                    toastr.error(value[0]);
+                                });
+                            } else {
+                                toastr.error('An error occurred.');
+                            }
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
 
