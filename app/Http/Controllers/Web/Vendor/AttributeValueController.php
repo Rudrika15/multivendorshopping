@@ -23,7 +23,7 @@ class AttributeValueController extends Controller
                 ->addIndexColumn() // Add an index column if needed
                 ->addColumn('action', function ($row) {
                     // Define action buttons (edit, delete, etc.)
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn = '<a href="' . route("attributeValue.edit", $row->id) . '"  class="edit btn btn-primary btn-sm">Edit</a>';
                     $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#attributeValueTable" data-url="' . route("attributeValue.destroy", ':id') . '" >Delete</a>';
                     return $btn;
                 })
@@ -55,6 +55,24 @@ class AttributeValueController extends Controller
         return response()->json(['success' => 'Attribute Value Created Successfully.']);
 
     }
+    public function edit($id)
+    {
+        $attributes = Attribute::all();
+        $attributeValue = AttributeValue::find($id);
+        return view('Vendor.attributeValues.edit', compact('attributeValue','attributes'));
+    }
+
+    public function update(Request $request)
+   {
+        $id  =$request->attributeValueId;
+       $attributeValue = AttributeValue::find($id);
+       $attributeValue->value = $request->value;
+       $attributeValue->attributeId = $request->attrId;
+
+       $attributeValue->save();
+       return response()->json(['status' => 201, 'success' => 'Attribute Updated successfully!']);
+
+   }
     public function destroy($id)
     {
         $attributeValue = AttributeValue::find($id);

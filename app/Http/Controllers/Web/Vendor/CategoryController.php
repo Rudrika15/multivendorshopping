@@ -22,11 +22,12 @@ class CategoryController extends Controller
             return DataTables::of($categories)
                 ->addIndexColumn() // Add an index column if needed
                 ->addColumn('action', function ($row) {
-                    // Define action buttons (edit, delete, etc.)
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#categoryTable" data-url="' . route("category.destroy", ':id') . '" >Delete</a>';
+                    // Modify the edit button to include the row's ID in the route
+                    $btn = '<a href="' . route("category.edit", $row->id) . '" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#categoryTable" data-url="' . route("category.destroy", ':id') . '">Delete</a>';
                     return $btn;
                 })
+
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
                 ->make(true);
         }
@@ -72,6 +73,30 @@ class CategoryController extends Controller
         $category->save();
         return response()->json(['status' => 201, 'success' => 'Category added successfully!']);
     }
+
+
+    public function edit($id)
+    {
+        $categories = Category::all();
+        $category = Category::find($id);
+        return view('Vendor.categories.edit', compact('category','categories'));
+    }
+
+    public function update(Request $request)
+   {
+        $id  =$request->categoryId;
+       $category = Category::find($id);
+       $category->categoryName = $request->categoryName;
+       if ($request->hasFile('photo')) {
+        $file = $request->file('photo');
+        $filename = time() . '.' . $file->getClientOriginalExtension();
+        $file->move(public_path('categories'), $filename);
+        $category->categoryIcon = $filename;
+    }
+       $category->save();
+       return response()->json(['status' => 201, 'success' => 'Category Updated successfully!']);
+
+   }
     public function destroy($id)
     {
         $category = Category::find($id);
@@ -80,5 +105,4 @@ class CategoryController extends Controller
         return redirect()->route('category.index')
             ->with('success', 'Category Deleted Successfully');
     }
-
 }

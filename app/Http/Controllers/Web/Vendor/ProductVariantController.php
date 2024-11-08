@@ -23,7 +23,7 @@ class ProductVariantController extends Controller
             return DataTables::of($productVariants)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn = '<a href="' . route("productVariant.edit", $row->id) . '"  class="edit btn btn-primary btn-sm">Edit</a>';
                     $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#productVariantTable" data-url="' . route("productVariant.destroy", ':id') . '" >Delete</a>';
                     return $btn;
                 })
@@ -64,6 +64,25 @@ class ProductVariantController extends Controller
         // Return success response for AJAX
         return response()->json(['success' => 'Product Variant created successfully.']);
     }
+    public function edit($id)
+    {
+        $products = Product::all();
+        $productVariant = ProductVariant::find($id);
+        return view('Vendor.productVariants.edit', compact('productVariant','products'));
+    }
+
+    public function update(Request $request)
+   {
+        $id  =$request->productVariantId;
+       $productVariant = ProductVariant::find($id);
+       $productVariant->variantName = $request->variantName;
+       $productVariant->productId = $request->proId;
+       $productVariant->price = $request->price;
+       $productVariant->stock = $request->stock;
+       $productVariant->save();
+       return response()->json(['status' => 201, 'success' => 'productVariant Updated successfully!']);
+
+   }
     public function destroy($id)
     {
         $productVariant = ProductVariant::find($id);
