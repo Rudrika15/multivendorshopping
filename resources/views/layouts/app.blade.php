@@ -99,7 +99,7 @@
                         <a href="{{ route('products.index') }}"
                             class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
                                 class="fa fa-users me-2"></i>Product </a>
-                    @endrole    
+                    @endrole
                     @role('Admin')
                         <a href="{{ route('store.create') }}"
                             class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
@@ -113,7 +113,7 @@
                             <a href="signin.html" class="dropdown-item">Sign In</a>
                             <a href="signup.html" class="dropdown-item">Sign Up</a>
                             <a href="404.html" class="dropdown-item">404 Error</a>
-                            <a href="blank.html" class="dropdown-item">Blank Page</a>
+                            <a href="blank.html" class="dropdown-item">Blank Page code</a>
                         </div>
                     </div>
                 </div>
