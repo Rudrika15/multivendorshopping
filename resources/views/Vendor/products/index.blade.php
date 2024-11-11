@@ -9,7 +9,9 @@
             <h3>Product Management</h3>
         </div>
         <div>
-            <a href="{{ route('product.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product</a>
+            @can('products.create')
+                <a href="{{ route('product.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product</a>
+            @endcan
         </div>
     </div>
 
@@ -67,5 +69,4 @@
             });
         });
     </script> --}}
-
 @endsection

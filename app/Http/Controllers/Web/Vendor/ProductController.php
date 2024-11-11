@@ -26,10 +26,10 @@ class ProductController extends Controller
      */
     function __construct()
     {
-        //     $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
-        //     $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
-        //     $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
-        //     $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -155,7 +155,7 @@ class ProductController extends Controller
     {
         $categories = Category::where('userId', Auth::user()->id)->get();
         $product = Product::find($id);
-        return view('Vendor.products.edit', compact('product','categories'));
+        return view('Vendor.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -168,7 +168,7 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
 
-        $id  =$request->productId;
+        $id  = $request->productId;
         $product = Product::find($id);
         $product->userId = Auth::user()->id;
         $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
@@ -183,9 +183,8 @@ class ProductController extends Controller
 
         $product->save();
 
-        
-        return response()->json(['status' => 201, 'success' => 'Product Updated Successfully!']);
 
+        return response()->json(['status' => 201, 'success' => 'Product Updated Successfully!']);
     }
 
 

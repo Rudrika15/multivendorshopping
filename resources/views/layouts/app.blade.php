@@ -82,21 +82,28 @@
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div> --}}
-                    <a href="{{ route('users.index') }}"
-                        class="nav-item nav-link @if (Route::currentRouteName() == 'users.index') active @endif"><i
-                            class="fa fa-users me-2"></i>User </a>
-                    <a href="{{ route('roles.index') }}"
-                        class="nav-item nav-link @if (Route::currentRouteName() == 'roles.index') active @endif"><i
-                            class="fa fa-user-lock me-2"></i>Roles </a>
-                    <a href="{{ route('category.index') }}"
-                        class="nav-item nav-link @if (Route::currentRouteName() == 'category.index') active @endif"><i
-                            class="fa fa-users me-2"></i>Category </a>
-                    <a href="{{ route('products.index') }}"
-                        class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
-                            class="fa fa-users me-2"></i>Product </a>
-                    <a href="{{ route('store.create') }}"
-                        class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
-                            class="fa fa-users me-2"></i>Add store</a>
+                    @role('Admin')
+                        <a href="{{ route('users.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'users.index') active @endif"><i
+                                class="fa fa-users me-2"></i>User </a>
+                        <a href="{{ route('roles.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'roles.index') active @endif"><i
+                                class="fa fa-user-lock me-2"></i>Roles </a>
+                    @endrole
+
+                    @role('Store')
+                        <a href="{{ route('category.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'category.index') active @endif"><i
+                                class="fa fa-users me-2"></i>Category </a>
+                        <a href="{{ route('products.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
+                                class="fa fa-users me-2"></i>Product </a>
+                    @endrole    
+                    @role('Admin')
+                        <a href="{{ route('store.create') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
+                                class="fa fa-users me-2"></i>Add store</a>
+                    @endrole
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"><i

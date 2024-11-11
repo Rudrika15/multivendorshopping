@@ -14,6 +14,13 @@ use Yajra\DataTables\DataTables;
 class ProductVariantController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:productVariant-list|productVariant-create|productVariant-edit|productVariant-delete', ['only' => ['index']]);
+        $this->middleware('permission:productVariant-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:productVariant-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:productVariant-delete', ['only' => ['destroy']]);
+    }
 
     public function index()
     {

@@ -11,8 +11,11 @@ use Illuminate\Support\Facades\Auth;
 class StoreController extends Controller
 {
 
+    function __construct()
+    {
+        $this->middleware('permission:store-profile', ['only' => ['profile', 'updateProfile']]);
 
-   
+    }
 
 
     public function profile()

@@ -12,6 +12,13 @@ use Yajra\DataTables\DataTables;
 class AttributeValueController extends Controller
 {
 
+function __construct()
+    {
+        $this->middleware('permission:attributeValue-list|attributeValue-create|attributeValue-edit|attributeValue-delete', ['only' => ['index']]);
+        $this->middleware('permission:attributeValue-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:attributeValue-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:attributeValue-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         if (request()->ajax()) {

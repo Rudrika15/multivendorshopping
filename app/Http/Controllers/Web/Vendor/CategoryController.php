@@ -11,7 +11,13 @@ use Yajra\DataTables\DataTables;
 
 class CategoryController extends Controller
 {
-    //
+    function __construct()
+    {
+        $this->middleware('permission:category-list|category-create|category-edit|category-delete', ['only' => ['index']]);
+        $this->middleware('permission:category-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:category-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:category-delete', ['only' => ['destroy']]);
+    }
     public function index()
     {
         if (request()->ajax()) {
