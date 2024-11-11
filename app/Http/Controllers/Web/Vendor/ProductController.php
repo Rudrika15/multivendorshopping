@@ -52,7 +52,7 @@ class ProductController extends Controller
             return DataTables::of($products)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn = '<a href="' . route("product.edit", $row->id) . '" class="edit btn btn-primary btn-sm">Edit</a>';
                     $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#productTable" data-url="' . route("product.destroy", ':id') . '" >Delete</a>';
 
                     return $btn;
@@ -130,7 +130,7 @@ class ProductController extends Controller
         //      $productGallery->save();
         //   }
         //  Return success response for AJAX
-        return response()->json(['success' => 'Product created successfully.']);
+        return response()->json(['success' => 'Product Created Successfully.']);
     }
 
 
@@ -151,9 +151,11 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product): View
+    public function edit($id)
     {
-        return view('Vendor.products.edit', compact('product'));
+        $categories = Category::where('userId', Auth::user()->id)->get();
+        $product = Product::find($id);
+        return view('Vendor.products.edit', compact('product','categories'));
     }
 
     /**
@@ -165,18 +167,25 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $id  =$request->productId;
+        $product = Product::find($id);
+        $product->userId = Auth::user()->id;
+        $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
-        $product->update($request->all());
 
-        return response()->json(['success' => true, 'message' => 'Product updated successfully']);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->categoryId = $request->input('c_id');
+        $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
+        $product->storeId = $storeId;
+
+        $product->save();
+
+        
+        return response()->json(['status' => 201, 'success' => 'Product Updated Successfully!']);
+
     }
 
 

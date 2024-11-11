@@ -25,7 +25,7 @@
 
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
-                    <div class="form-group">
+                    <div class="form-group" id="chooseproduct">
                         <strong>Choose a Product:<sup class="text-danger">*</sup></strong>
                         <select name="proId" id="productId" class="form-control bg-dark">
                             <option disabled selected>select Product</option>

@@ -71,13 +71,13 @@ class CategoryController extends Controller
             $category->categoryIcon = $filename;
         }
         $category->save();
-        return response()->json(['status' => 201, 'success' => 'Category added successfully!']);
+        return response()->json(['status' => 201, 'success' => 'Category Added Successfully!']);
     }
 
 
     public function edit($id)
     {
-        $categories = Category::all();
+        $categories = Category::where('userId', Auth::user()->id)->get();
         $category = Category::find($id);
         return view('Vendor.categories.edit', compact('category','categories'));
     }
@@ -87,6 +87,11 @@ class CategoryController extends Controller
         $id  =$request->categoryId;
        $category = Category::find($id);
        $category->categoryName = $request->categoryName;
+       if ($request->parentId == "on") {
+        $category->parentId = $request->parentCategory;
+    } else {
+        $category->parentId = "0";
+    }
        if ($request->hasFile('photo')) {
         $file = $request->file('photo');
         $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -94,7 +99,7 @@ class CategoryController extends Controller
         $category->categoryIcon = $filename;
     }
        $category->save();
-       return response()->json(['status' => 201, 'success' => 'Category Updated successfully!']);
+       return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
 
    }
     public function destroy($id)

@@ -70,7 +70,7 @@ class AttributeValueController extends Controller
        $attributeValue->attributeId = $request->attrId;
 
        $attributeValue->save();
-       return response()->json(['status' => 201, 'success' => 'Attribute Updated successfully!']);
+       return response()->json(['status' => 201, 'success' => 'Attribute Updated Successfully!']);
 
    }
     public function destroy($id)

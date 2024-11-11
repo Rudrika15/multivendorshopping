@@ -38,8 +38,8 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12" id="dropdownDiv" style="display: none;">
-                    <div class="form-group">
-                        <select name="parentCategory" id="cat_id" class="form-control bg-dark   ">
+                    <div class="form-group" >
+                        <select name="parentCategory" id="cat_id" class="form-control" style="background-color: #30333a">
                             <option disabled selected>select category</option>
 
                             @foreach ($categories as $category)

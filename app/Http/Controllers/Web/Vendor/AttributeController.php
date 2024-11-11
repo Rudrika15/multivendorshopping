@@ -70,7 +70,7 @@ class AttributeController extends Controller
        $attribute->name = $request->name;
        $attribute->categoryId = $request->catId;
        $attribute->save();
-       return response()->json(['status' => 201, 'success' => 'Attribute Updated successfully!']);
+       return response()->json(['status' => 201, 'success' => 'Attribute Updated Successfully!']);
 
    }
     public function destroy($id)

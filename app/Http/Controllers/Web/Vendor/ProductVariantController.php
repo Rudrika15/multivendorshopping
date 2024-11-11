@@ -62,7 +62,7 @@ class ProductVariantController extends Controller
         $productVariant->save();
 
         // Return success response for AJAX
-        return response()->json(['success' => 'Product Variant created successfully.']);
+        return response()->json(['success' => 'Product Variant Created Successfully.']);
     }
     public function edit($id)
     {
@@ -80,7 +80,7 @@ class ProductVariantController extends Controller
        $productVariant->price = $request->price;
        $productVariant->stock = $request->stock;
        $productVariant->save();
-       return response()->json(['status' => 201, 'success' => 'productVariant Updated successfully!']);
+       return response()->json(['status' => 201, 'success' => 'ProductVariant Updated Successfully!']);
 
    }
     public function destroy($id)

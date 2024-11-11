@@ -11,6 +11,7 @@ use App\Http\Controllers\Web\Vendor\ProductVariantController;
 use App\Http\Controllers\Web\Vendor\ReviewController;
 use App\Models\AttributeValue;
 use App\Models\Category;
+use App\Models\Product;
 use App\Models\ProductVariant;
 //use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Route; // Use the correct namespace for Route
@@ -28,6 +29,9 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::get('product/index', [ProductController::class, 'index'])->name('product.index');
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('product/store', [ProductController::class, 'store'])->name('product.store');
+    Route::get('product/edit/{id?}', [ProductController::class, 'edit'])->name('product.edit');
+    Route::post('product/update',[ProductController::class,'update'] )->name('product.update');
+
     Route::post('product/delete/{id?}', [ProductController::class, 'destroy'])->name('product.destroy');
 
     Route::get('category/index', [CategoryController::class, 'index'])->name('category.index');
