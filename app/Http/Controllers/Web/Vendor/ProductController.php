@@ -4,10 +4,11 @@ namespace App\Http\Controllers\Web\Vendor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Attribute;
+
 use App\Models\Product;
 use App\Models\Store;
 use App\Models\productGallery;
-
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -25,10 +26,10 @@ class ProductController extends Controller
      */
     function __construct()
     {
-        //     $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
-        //     $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
-        //     $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
-        //     $this->middleware('permission:product-delete', ['only' => ['destroy']]);
+        $this->middleware('permission:product-list|product-create|product-edit|product-delete', ['only' => ['index', 'show']]);
+        $this->middleware('permission:product-create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:product-edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:product-delete', ['only' => ['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -51,8 +52,9 @@ class ProductController extends Controller
             return DataTables::of($products)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class=" delete btn btn-danger btn-sm">Delete</a>';
+                    $btn = '<a href="' . route("product.edit", $row->id) . '" class="edit btn btn-primary btn-sm">Edit</a>';
+                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class="delete btn btn-danger btn-sm" data-table="#productTable" data-url="' . route("product.destroy", ':id') . '" >Delete</a>';
+
                     return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
@@ -70,7 +72,9 @@ class ProductController extends Controller
     public function create(): View
     {
         $categories = Category::where('userId', Auth::user()->id)->get();
-        return view('Vendor.products.create', compact('categories'));
+        $attributes = Attribute::all();
+
+        return view('Vendor.products.create', compact('categories', 'attributes'));
     }
 
     /**
@@ -90,13 +94,6 @@ class ProductController extends Controller
 
         // $slug = Str::slug($request->slug);
 
-
-
-
-        
-
-
-
         $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
         $product = new Product();
@@ -112,29 +109,28 @@ class ProductController extends Controller
         $product->save();
 
 
-        // $productGallery = new productGallery();
-        // $productGallery->productId = $product->id;
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $file->move(public_path('products'), $filename);
-        //     $productGallery->imageURL = $filename;
-        // }
-        // $productGallery->save();
-
-
-
         $productGallery = new productGallery();
-        foreach ($request->file('images') as $productGallery->imageURL) {
-             $file = $request->file('photo');
+        $productGallery->productId = $product->id;
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
-             $file->move(public_path('products'), $filename);
+            $file->move(public_path('products'), $filename);
             $productGallery->imageURL = $filename;
-            $productGallery->productId = $product->id;
-            $productGallery->save();
-          }
-        // Return success response for AJAX
-        return response()->json(['success' => 'Product created successfully.']);
+        }
+        $productGallery->save();
+
+
+        // $productGallery = new productGallery();
+        // foreach ($request->file('images') as $productGallery->imageURL) {
+        //      $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //      $file->move(public_path('products'), $filename);
+        //     $productGallery->imageURL = $filename;
+        //     $productGallery->productId = $product->id;
+        //      $productGallery->save();
+        //   }
+        //  Return success response for AJAX
+        return response()->json(['success' => 'Product Created Successfully.']);
     }
 
 
@@ -155,9 +151,11 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function edit(Product $product): View
+    public function edit($id)
     {
-        return view('Vendor.products.edit', compact('product'));
+        $categories = Category::where('userId', Auth::user()->id)->get();
+        $product = Product::find($id);
+        return view('Vendor.products.edit', compact('product', 'categories'));
     }
 
     /**
@@ -169,18 +167,24 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'detail' => 'required',
-        ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        $id  = $request->productId;
+        $product = Product::find($id);
+        $product->userId = Auth::user()->id;
+        $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
 
-        $product->update($request->all());
 
-        return response()->json(['success' => true, 'message' => 'Product updated successfully']);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->categoryId = $request->input('c_id');
+        $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
+        $product->storeId = $storeId;
+
+        $product->save();
+
+
+        return response()->json(['status' => 201, 'success' => 'Product Updated Successfully!']);
     }
 
 
@@ -190,11 +194,12 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Product $product): RedirectResponse
+    public function destroy($id)
     {
+        $product = Product::find($id);
         $product->delete();
 
         return redirect()->route('products.index')
-            ->with('success', 'Product deleted successfully');
+            ->with('success', 'Product Deleted Successfully');
     }
 }

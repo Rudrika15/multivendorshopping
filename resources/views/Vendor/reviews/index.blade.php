@@ -18,6 +18,7 @@
             ['title' => 'Id', 'data' => 'id'],
             ['title' => 'Review Text', 'data' => 'reviewText'],
             ['title' => 'User Id', 'data' => 'userId'],
+            ['title' => 'Product Id', 'data' => 'productId'],
             ['title' => 'Rating', 'data' => 'rating'],
         ],
         'imageFields' => [''],

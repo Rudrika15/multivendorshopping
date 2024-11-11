@@ -11,6 +11,11 @@ use Illuminate\Http\Request;
 
 class ReviewController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:review-list', ['only' => ['index']]);
+
+    }
     public function index()
     {
         if (request()->ajax()) {

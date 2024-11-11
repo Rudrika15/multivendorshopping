@@ -83,6 +83,7 @@
                             <a href="element.html" class="dropdown-item">Other Elements</a>
                         </div>
                     </div> --}}
+<<<<<<< HEAD
                     <a href="{{ route('users.index') }}"
                         class="nav-item nav-link @if (Route::currentRouteName() == 'users.index') active @endif"><i
                             class="fa fa-users me-2"></i>User </a>
@@ -98,6 +99,30 @@
                     <a href="{{ route('store.create') }}"
                         class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
                             class="fa fa-users me-2"></i>Add store</a>
+=======
+                    @role('Admin')
+                        <a href="{{ route('users.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'users.index') active @endif"><i
+                                class="fa fa-users me-2"></i>User </a>
+                        <a href="{{ route('roles.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'roles.index') active @endif"><i
+                                class="fa fa-user-lock me-2"></i>Roles </a>
+                    @endrole
+
+                    @role('Store')
+                        <a href="{{ route('category.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'category.index') active @endif"><i
+                                class="fa fa-users me-2"></i>Category </a>
+                        <a href="{{ route('products.index') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'product.index') active @endif"><i
+                                class="fa fa-users me-2"></i>Product </a>
+                    @endrole    
+                    @role('Admin')
+                        <a href="{{ route('store.create') }}"
+                            class="nav-item nav-link @if (Route::currentRouteName() == 'store.create') active @endif"><i
+                                class="fa fa-users me-2"></i>Add store</a>
+                    @endrole
+>>>>>>> 31eae5a441a9d82f0db3bcefec0eececcaf29735
 
                     <div class="nav-item dropdown">
                         <a href="#" class="nav-link dropdown-toggle " data-bs-toggle="dropdown"><i
@@ -213,6 +238,53 @@
                 }
             });
         }
+
+
+
+        $(document).ready(function() {
+            // Initialize DataTable (this can be generalized if needed for multiple tables)
+            $('.data-table').each(function() {
+                $(this).DataTable();
+            });
+
+            // Attach a click event to the delete button
+            $(document).on('click', '.delete', function() {
+                var id = $(this).data('id');
+                var route = $(this).data('url');
+                console.log("route", route);
+
+                var tableSelector = $(this).data('table');
+
+                if (confirm("Are you sure you want to delete this item?")) {
+                    $.ajax({
+                        url: route.replace(':id', id),
+                        type: 'POST',
+                        data: {
+                            _token: "{{ csrf_token() }}"
+                        },
+                        success: function(response) {
+                            console.log("response", response);
+                            if (response) {
+                                toastr.success('Item Deleted Successfully.');
+                                $(tableSelector).DataTable().ajax.reload();
+                            } else {
+                                toastr.error(response.message || 'Something went wrong.');
+                            }
+                        },
+                        error: function(xhr) {
+                            let errors = xhr.responseJSON && xhr.responseJSON.errors;
+                            if (errors) {
+                                $.each(errors, function(key, value) {
+                                    toastr.error(value[0]);
+                                });
+                            } else {
+                                toastr.error('An error occurred.');
+                            }
+                        }
+                    });
+                }
+            });
+        });
     </script>
 
 

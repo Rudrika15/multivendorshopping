@@ -17,7 +17,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
-                        <strong>Name <sup class="text-danger">*</sup></strong>
+                        <strong>Name :<sup class="text-danger">*</sup></strong>
                         <input type="text" name="name" id="name" class="form-control" placeholder="Name">
                     </div>
                 </div>
@@ -34,7 +34,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Choose a category:<sup class="text-danger">*</sup></strong>
-                        <select name="c_id" id="cat_id" class="form-control bg-dark">
+                        <select name="c_id" id="cat_id" class="form-control " style="background-color: #30333a">
                             <option disabled selected>select category</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
@@ -53,7 +53,7 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group" >
                         <strong>Image:<sup class="text-danger">*</sup></strong>
-                        <input type="file" name="images" id="photo" class="form-control" style="background-color: #30333a" multiple>
+                        <input type="file" name="photo" id="photo" class="form-control" style="background-color: #30333a" multiple>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
@@ -62,10 +62,21 @@
                         <i class="fa-solid fa-floppy-disk"></i> Submit</button>
                 </div>
             </div>
+            <div class="d-flex justify-content-end" id="textboxContainer">
+                <butoon class="btn btn-primary" id="addBlockButton" >Add Block</butoon>
+            </div>
+
+            <div id="container"></div>
+
+
+
+
+
         </form>
     @endsection
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
@@ -98,4 +109,43 @@
 
             saveData();
         }
+
+
+
+
+
+    $(document).ready(function(){
+        $("#addBlockButton").click(function(){
+            $("#container").append(`
+                <div class="row">
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <strong>Image:<sup class="text-danger">*</sup></strong>
+                            <input type="file" name="photo" id="photo" class="form-control" style="background-color: #30333a" multiple>
+                        </div>
+                    </div>
+                    <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                             <strong>Choose a Attribute:<sup class="text-danger">*</sup></strong>
+                        <select name="c_id" id="cat_id" class="form-control " style="background-color: #30333a">
+                            <option disabled selected>select attribute</option>
+                            @foreach ($attributes as $attribute)
+                                <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                            @endforeach
+
+                        </select>
+                        </div>
+                    </div>
+                     <div class="col-xs-6 col-sm-6 col-md-6">
+                        <div class="form-group">
+                            <strong>Stock: <sup class="text-danger">*</sup></strong>
+                            <input type="text" name="stock" id="stock" class="form-control" placeholder="stock">
+                        </div>
+                    </div>
+                </div>
+
+            `);
+        });
+    });
+
     </script>
