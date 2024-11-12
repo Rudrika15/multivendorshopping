@@ -14,19 +14,18 @@ class ReviewController extends Controller
     function __construct()
     {
         $this->middleware('permission:review-list', ['only' => ['index']]);
-
     }
     public function index()
     {
         if (request()->ajax()) {
-            $reviews = Review::all();
+            $reviews = Review::with('user')->get();
 
             return DataTables::of($reviews)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
-                    $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class=" delete btn btn-danger btn-sm">Delete</a>';
-                    return $btn;
+                    // // $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>';
+                    // // $btn .= ' <a href="javascript:void(0)" data-id="' . $row->id . '" class=" delete btn btn-danger btn-sm">Delete</a>';
+                    // return $btn;
                 })
                 ->rawColumns(['action']) // If using HTML in columns like 'action', mark them raw
                 ->make(true);

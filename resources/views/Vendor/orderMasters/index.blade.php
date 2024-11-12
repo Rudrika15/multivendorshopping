@@ -6,20 +6,23 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <div>
-            <h3>Review List</h3>
+            <h3>Order List</h3>
         </div>
     </div>
 
     @component('layouts.table', [
-        'tableId' => 'reviewTable',
+        'tableId' => 'orderMasterTable',
         'photoPath' => '',
-        'ajaxUrl' => route('review.index'),
+        'ajaxUrl' => route('order.index'),
         'columns' => [
             ['title' => 'Id', 'data' => 'id'],
-            ['title' => 'Review Text', 'data' => 'reviewText'],
             ['title' => 'User Id', 'data' => 'userId'],
-            ['title' => 'Product Id', 'data' => 'productId'],
-            ['title' => 'Rating', 'data' => 'rating'],
+            ['title' => 'Order Status', 'data' => 'orderStatus'],
+            ['title' => 'Shipping Address', 'data' => 'shippingAddress'],
+            ['title' => 'Payment Method', 'data' => 'paymentMethod'],
+            ['title' => 'Total Amount', 'data' => 'totalAmount'],
+
+
         ],
         'imageFields' => [''],
     ])

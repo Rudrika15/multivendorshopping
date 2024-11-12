@@ -5,12 +5,15 @@ use App\Http\Controllers\Web\Vendor\CategoryController;
 use App\Http\Controllers\Web\Vendor\StoreController;
 use App\Http\Controllers\Web\Vendor\AttributeController;
 use App\Http\Controllers\Web\Vendor\AttributeValueController;
+use App\Http\Controllers\Web\Vendor\OrderMasterController;
+
 
 
 use App\Http\Controllers\Web\Vendor\ProductVariantController;
 use App\Http\Controllers\Web\Vendor\ReviewController;
 use App\Models\AttributeValue;
 use App\Models\Category;
+use App\Models\OrderMaster;
 use App\Models\Product;
 use App\Models\ProductVariant;
 //use Illuminate\Routing\Route;
@@ -71,4 +74,8 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
 
 
     Route::get('review/index', [ReviewController::class, 'index'])->name('review.index');
+
+
+    Route::get('order/index', [OrderMasterController::class, 'index'])->name('order.index');
+
 });
