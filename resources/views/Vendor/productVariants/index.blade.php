@@ -17,7 +17,7 @@
     @component('layouts.table', [
         'tableId' => 'productVariantTable',
         'photoPath' => '',
-        'ajaxUrl' => route('productVariant.index'), 
+        'ajaxUrl' => route('productVariant.index'),
         'columns' => [
             ['title' => 'Id', 'data' => 'id'],
             ['title' => 'Variant Name', 'data' => 'variantName'],

@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <div>
-            <h3>Create Product Variant</h3>
+            <h3>Edit Product Variant</h3>
         </div>
         <div>
             <a href="{{ route('productVariant.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back</a>

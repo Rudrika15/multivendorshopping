@@ -3,7 +3,7 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <div>
-            <h3>Create Attribute Value</h3>
+            <h3>Edit Attribute Value</h3>
         </div>
         <div>
              <a href="{{ route('attributeValue.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back</a>

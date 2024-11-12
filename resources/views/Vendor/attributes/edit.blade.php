@@ -3,14 +3,14 @@
 @section('content')
     <div class="d-flex justify-content-between">
         <div>
-            <h3>Create Attribute</h3>
+            <h3>Edit Attribute</h3>
         </div>
         <div>
             <a href="{{ route('attribute.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i> Back</a>
         </div>
     </div>
     <div class="bg-secondary rounded h-100 p-4 ">
-        <form id="form"  method="post"  action="{{ route('attribute.update') }}">
+        <form id="form" method="post" action="{{ route('attribute.update') }}">
             @csrf
             <input type="hidden" value="{{ $attribute->id }}" name="attributeId">
 
@@ -19,7 +19,8 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Attribute Name:<sup class="text-danger">*</sup></strong>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Enter Attribute Name"  value="{{ $attribute->name}}">
+                        <input type="text" name="name" id="name" class="form-control"
+                            placeholder="Enter Attribute Name" value="{{ $attribute->name }}">
                     </div>
                 </div>
 
@@ -63,13 +64,11 @@
             return false;
         }
         if ($('#categoryId').val().trim() == '') {
-                toastr.error('Please choose Category...');
-                return false;
-            }
+            toastr.error('Please choose Category...');
+            return false;
+        }
 
 
         saveData();
     }
-
-
 </script>
