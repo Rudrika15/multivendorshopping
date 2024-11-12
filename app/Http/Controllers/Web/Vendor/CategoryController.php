@@ -85,29 +85,28 @@ class CategoryController extends Controller
     {
         $categories = Category::where('userId', Auth::user()->id)->get();
         $category = Category::find($id);
-        return view('Vendor.categories.edit', compact('category','categories'));
+        return view('Vendor.categories.edit', compact('category', 'categories'));
     }
 
     public function update(Request $request)
-   {
-        $id  =$request->categoryId;
-       $category = Category::find($id);
-       $category->categoryName = $request->categoryName;
-       if ($request->parentId == "on") {
-        $category->parentId = $request->parentCategory;
-    } else {
-        $category->parentId = "0";
+    {
+        $id  = $request->categoryId;
+        $category = Category::find($id);
+        $category->categoryName = $request->categoryName;
+        if ($request->parentId == "on") {
+            $category->parentId = $request->parentCategory;
+        } else {
+            $category->parentId = "0";
+        }
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('categories'), $filename);
+            $category->categoryIcon = $filename;
+        }
+        $category->save();
+        return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
     }
-       if ($request->hasFile('photo')) {
-        $file = $request->file('photo');
-        $filename = time() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('categories'), $filename);
-        $category->categoryIcon = $filename;
-    }
-       $category->save();
-       return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
-
-   }
     public function destroy($id)
     {
         $category = Category::find($id);

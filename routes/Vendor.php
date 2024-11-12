@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Web\Vendor\ProductController;
-use App\Http\Controllers\web\Vendor\CategoryController;
+use App\Http\Controllers\Web\Vendor\CategoryController;
 use App\Http\Controllers\Web\Vendor\StoreController;
 use App\Http\Controllers\Web\Vendor\AttributeController;
 use App\Http\Controllers\Web\Vendor\AttributeValueController;

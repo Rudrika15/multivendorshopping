@@ -9,8 +9,8 @@
             <h3>Product Management</h3>
         </div>
         <div>
-            @can('products.create')
-                <a href="{{ route('product.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product</a>
+            <a href="{{ route('product.create') }}" class="btn btn-primary"><i class="fa-solid fa-plus"></i> Add Product</a>
+            @can('product.create')
             @endcan
         </div>
     </div>
