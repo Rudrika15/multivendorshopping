@@ -23,7 +23,7 @@
             ['title' => 'Variant Name', 'data' => 'variantName'],
             ['title' => 'Product Id', 'data' => 'productId'],
             ['title' => 'Price', 'data' => 'price'],
-            ['title' => 'stock', 'data' => 'stock'],
+            ['title' => 'Stock', 'data' => 'stock'],
         ],
         'imageFields' => [''],
     ])
