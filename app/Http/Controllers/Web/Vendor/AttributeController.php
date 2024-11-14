@@ -69,16 +69,29 @@ class AttributeController extends Controller
         return view('Vendor.attributes.edit', compact('attribute','categories'));
     }
 
-    public function update(Request $request)
-   {
-        $id  =$request->attributeId;
-       $attribute = Attribute::find($id);
-       $attribute->name = $request->name;
-       $attribute->categoryId = $request->catId;
-       $attribute->save();
-       return response()->json(['status' => 201, 'success' => 'Attribute Updated Successfully!']);
 
-   }
+
+   public function update(Request $request)
+    {
+        // $validator = Validator::make($request->all(), [
+        //             'name' => 'required',
+        //
+
+        //         ]);
+
+        //         if ($validator->fails()) {
+        //             return response()->json(['errors' => $validator->errors()], 422);
+        //         }
+
+        $id  = $request->attributeId;
+        $attribute = Attribute::find($id);
+        $attribute->name = $request->name;
+        $attribute->categoryId = $request->catId;
+        $attribute->save();
+        return redirect()->route('attribute.index')
+            ->with('success', 'Attribute Updated Successfully');
+    }
+
     public function destroy($id)
     {
         $attribute = Attribute::find($id);

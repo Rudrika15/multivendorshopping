@@ -78,36 +78,47 @@ class ProductVariantController extends Controller
         return view('Vendor.productVariants.edit', compact('productVariant', 'products'));
     }
 
-    // public function update(Request $request)
-    // {
-    //     $id  = $request->productVariantId;
-    //     $productVariant = ProductVariant::find($id);
-    //     $productVariant->variantName = $request->variantName;
-    //     $productVariant->productId = $request->proId;
-    //     $productVariant->price = $request->price;
-    //     $productVariant->stock = $request->stock;
-    //     $productVariant->save();
-    //     return redirect()->route('productVariant.index')
-    //         ->with('success', 'Product Variant Updated Successfully');
-    // }
-
-    public function update(Request $request, ProductVariant $productVariant)
+    public function update(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'variantName' => 'required',
-            'price' => 'required',
-            'stock' => 'required',
+        // $validator = Validator::make($request->all(), [
+        //             'variantName' => 'required',
+        //             'price' => 'required',
+        //             'stock' => 'required',
 
-        ]);
+        //         ]);
 
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
-        }
+        //         if ($validator->fails()) {
+        //             return response()->json(['errors' => $validator->errors()], 422);
+        //         }
 
-        $productVariant->update($request->all());
-
-        return response()->json(['success' => true, 'message' => 'Product Variant updated successfully']);
+        $id  = $request->productVariantId;
+        $productVariant = ProductVariant::find($id);
+        $productVariant->variantName = $request->variantName;
+        $productVariant->productId = $request->proId;
+        $productVariant->price = $request->price;
+        $productVariant->stock = $request->stock;
+        $productVariant->save();
+        return redirect()->route('productVariant.index')
+            ->with('success', 'Product Variant Updated Successfully');
     }
+
+    // public function update(Request $request, ProductVariant $productVariant)
+    // {
+    //     $validator = Validator::make($request->all(), [
+    //         'variantName' => 'required',
+    //         'price' => 'required',
+    //         'stock' => 'required',
+
+    //     ]);
+
+    //     if ($validator->fails()) {
+    //         return response()->json(['errors' => $validator->errors()], 422);
+    //     }
+
+    //     $productVariant->update($request->all());
+
+    //     return response()->json(['success' => true, 'message' => 'Product Variant updated successfully']);
+    // }
 
 
     public function destroy($id)

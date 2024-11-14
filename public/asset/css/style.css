@@ -294,7 +294,7 @@
     border-color: var(--primary);
 }
 
-/* .dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_length,
 .dataTables_wrapper .dataTables_filter,
 .dataTables_wrapper .dataTables_info,
 .dataTables_wrapper .dataTables_processing,
@@ -302,29 +302,43 @@
     color: var(--light) !important;
 }
 
+.dataTables_filter {
+    margin-bottom: 20px !important;
+}
+
+.dataTables_length {
+    margin-top: 20px !important;
+}
+
+.dataTables_info {
+    margin-top: 20px !important;
+}
+
+
+
 a .paginate_button {
     color: var(--light) !important;
 }
 
 .previous {
     color: var(--light) !important;
-} */
+}
 
 .table {
-
+    margin-top: 20px !important;
     border: 1px solid var(--primary) !important;
     background-color: var(--secondary) !important;
 }
 
 .dataTable {
-
+    margin-top: 20px !important;
     border: 1px solid var(--primary) !important;
     background-color: var(--secondary) !important;
 }
 
 /* Change the table row hover color */
 table.dataTable {
-
+    margin-top: 20px !important;
     border: 1px solid var(--primary) !important;
 }
 
@@ -343,12 +357,14 @@ table.dataTable tbody tr:hover {
 
 /* Change the pagination button styles */
 .dataTables_paginate .paginate_button {
+    margin-top: 20px !important;
     background: var(--primary);
-    color: var(--light);
+    color: var(--light) !important;
 }
 
 .dataTables_paginate .paginate_button:hover {
     background: var(--dark);
+    color: var(--light) !important;
     /* Change to your desired hover color */
 }
 
@@ -356,6 +372,7 @@ table.dataTable tbody tr:hover {
 .dataTables_filter input {
     /* Change border color */
     border-radius: 4px;
+    margin-top: 20px !important;
     /* Rounded corners */
 }
 

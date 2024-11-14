@@ -70,16 +70,25 @@ function __construct()
     }
 
     public function update(Request $request)
-   {
-        $id  =$request->attributeValueId;
-       $attributeValue = AttributeValue::find($id);
-       $attributeValue->value = $request->value;
-       $attributeValue->attributeId = $request->attrId;
+    {
+        // $validator = Validator::make($request->all(), [
+        //             'value' => 'required',
+        //
 
-       $attributeValue->save();
-       return response()->json(['status' => 201, 'success' => 'Attribute Updated Successfully!']);
+        //         ]);
 
-   }
+        //         if ($validator->fails()) {
+        //             return response()->json(['errors' => $validator->errors()], 422);
+        //         }
+
+        $id  = $request->attributeValueId;
+        $attributeValue = AttributeValue::find($id);
+        $attributeValue->value = $request->value;
+        $attributeValue->attributeId = $request->attrId;
+        $attributeValue->save();
+        return redirect()->route('attributeValue.index')
+            ->with('success', 'Attribute Value Updated Successfully');
+    }
     public function destroy($id)
     {
         $attributeValue = AttributeValue::find($id);

@@ -63,7 +63,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12">
-                    <button type="button" id="submitBtn" onclick="checkValidation()"
+                    <button type="button" id="submitBtn"
                         class="btn btn-outline-primary btn-md mt-2 mb-3">
                         <i class="fa-solid fa-floppy-disk"></i> Submit</button>
                 </div>

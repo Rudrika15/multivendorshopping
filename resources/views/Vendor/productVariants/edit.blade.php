@@ -11,18 +11,10 @@
         </div>
     </div>
 
-    <!-- Success and Error Messages -->
-    <div id="success-message" class="alert alert-success d-none">
-        Product Variant updated successfully.
-    </div>
 
-    <div id="error-message" class="alert alert-danger d-none">
-        There was an error updating the product Variant.
-    </div>
-
-    <form id="productVariantForm" onsubmit="validateForm()">
-        {{-- @csrf
-        @method('PUT') --}}
+    <form id="productVariantForm" action="{{ route('productVariant.update',$productVariant->id) }}" method="post" >
+         @csrf
+        {{-- @method('PATCH') --}}
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -32,7 +24,7 @@
                     <strong>Variant Name:</strong>
                     <input type="text" name="variantName" id="variantName" value="{{ $productVariant->variantName }}"
                         class="form-control" placeholder="Name">
-                    <div class="alert alert-danger mt-1 mb-1 d-none" id="name-error"></div>
+                    
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -64,8 +56,8 @@
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <button id="submitBtn" class="btn btn-outline-primary btn-md mt-2 mb-3"><i
-                        class="fa-solid fa-floppy-disk"></i> Submit</button>
+                <button class="btn btn-primary" id="updateBtn" value="{{ $productVariant->id }}">Submit</button>
+
             </div>
         </div>
     </form>
@@ -77,116 +69,58 @@
 
 
 
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $(document).on("click", "#submitBtn", function(e) {
-                e.preventDefault();
+    <script>
+        $(document).ready(function(){
 
-                $('#productVariantForm').validate({
-                    rules: {
-                        VariantName: {
-                            required: true,
-                            minlength: 3
-                        },
-                        price: {
-                            required: true,
-                            minlength: 3
-                        },
-                        stock: {
-                            required: true,
-                            minlength: 1
-                        },
-                        proId: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        VariantName: {
-                            required: "Please enter the product variant name",
-                            minlength: "Product name must be at least 3 characters"
-                        },
-                        price: {
-                            required: "Please enter price",
-                            minlength: "Price must be at least 3 digits"
-                        },
-                        stock: {
-                            required: "Please enter product stock",
-                            minlength: "Stock must be at least 1 digit"
-                        },
-                        proId: {
-                            required: "Please choose a product"
-                        }
-                    },
-                    errorPlacement: function(error, element) {
-                        toastr.error(error.text());
-                    },
-                    submitHandler: function(form) {
-                        alert('Form is valid!'); // For testing
-                        return false;
+    $(document).on("click", "#updateBtn", function() {
+        var url = "{{URL('productVariant.update/'.$productVariant->id)}}";
+        var id=
+		$.ajax({
+			url: url,
+			type: "POST",
+			cache: false,
+			data:{
+                _token:'{{ csrf_token() }}',
+				type: 3,
+				name: $('#variantName').val(),
+				email: $('#stock').val(),
+				phone: $('#price').val(),
+				city: $('#proId').val()
+			},
+            success: function(response) {
+                    if (response.success) {
+                        toastr.success('Product  updated successfully.');
+                        $('#productVariantForm')[0].reset(); // Clear the form
                     }
-                });
-            });
-        });
+                },
+		});
+	});
+
+    function checkValidation() {
+        toastr.clear();
+
+        if ($('#variantName').val().trim() == '') {
+            toastr.error('Please enter Variant Name...');
+            return false;
+        }
+        if ($('#productId').val().trim() == '') {
+                toastr.error('Please choose Product...');
+                return false;
+        }
+        if ($('#price').val().trim() == '') {
+                toastr.error('Please enter price...');
+                return false;
+        }
+        if ($('#stock').val().trim() == '') {
+                toastr.error('Please enter stock...');
+                return false;
+        }
+
+        saveData();
+    }
+});
 
 
-        // // Save Data using AJAX
-        // function saveData() {
-        //     let formData = {
-        //         '_token': $('input[name="_token"]').val(),
-        //         '_method': 'PUT',
-        //         'variantName': $('#variantName').val(),
-        //         'price': $('#price').val(),
-        //         'stock': $('#stock').val(),
-        //         'proId': $('#proId').val()
-        //     };
-        //     console.log('hello');
-        //     $.ajax({
 
-        //         type: "POST",
-        //         url: "{{ route('productVariant.update', $productVariant->id) }}",
-        //         data: formData,
-        //         success: function(response) {
-        //             if (response.success) {
-        //                 toastr.success('Product variant updated successfully.');
-        //                 $('#productVariantForm')[0].reset(); // Clear the form
-        //             }
-        //         },
-        //         error: function(xhr) {
-        //             let errors = xhr.responseJSON.errors;
-        //             if (errors.variantName) {
-        //                 toastr.error(errors.variantName[0]);
-        //             }
-        //             if (errors.price) {
-        //                 toastr.error(errors.price[0]);
-        //             }
-        //             if (errors.stock) {
-        //                 toastr.error(errors.stock[0]);
-        //             }
-        //             if (errors.proId) {
-        //                 toastr.error(errors.proId[0]);
-        //             }
-        //         }
-        //     });
-        // }
-
-        // // Initialize validation and submit handler
-        // $(document).ready(function() {
-        //     validateForm();
-
-        //     console.log('submit');
-
-        //     // Trigger form submission
-        //     $('#submitBtn').click(function() {
-        //         $('#productVariantForm').submit();
-        //     });
-        // });
-
-        // // Toastr configuration (optional)
-        // toastr.options = {
-        //     "closeButton": true,
-        //     "progressBar": true,
-        //     "positionClass": "toast-top-right",
-        //     "timeOut": "5000",
-        // };
     </script>
-@endsection
+    @endsection
