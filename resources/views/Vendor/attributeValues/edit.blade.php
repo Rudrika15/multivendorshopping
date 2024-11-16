@@ -12,7 +12,7 @@
     </div>
 
 
-    <form id="attributevalueForm" action="{{ route('attributeValue.update',$attributeValue->id) }}" method="post" >
+    <form id="attributeValueForm" action="{{ route('attributeValue.update',$attributeValue->id) }}" method="post" >
          @csrf
         {{-- @method('PATCH') --}}
 

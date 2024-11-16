@@ -19,8 +19,8 @@
         'ajaxUrl' => route('category.index'),
         'columns' => [
             ['title' => 'Id', 'data' => 'id'],
-            ['title' => 'category Name', 'data' => 'categoryName'],
-            ['title' => 'category Image', 'data' => 'categoryIcon'],
+            ['title' => 'Category Name', 'data' => 'categoryName'],
+            ['title' => 'Category Image', 'data' => 'categoryIcon'],
         ],
         'imageFields' => ['categoryIcon'],
     ])

@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="bg-secondary rounded h-100 p-4 ">
-        <form id="form" action="{{ route('category.update') }}" method="post" >
+        <form id="categoryForm" action="{{ route('category.update') }}" method="post">
             @csrf
             <input type="hidden" value="{{ $category->id }}" name="categoryId">
 
@@ -18,14 +18,16 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Name:<sup class="text-danger">*</sup></strong>
-                        <input type="text" name="categoryName" id="categoryName" class="form-control" placeholder="Name" value="{{ $category->categoryName}}">
+                        <input type="text" name="categoryName" id="categoryName" class="form-control" placeholder="Name"
+                            value="{{ $category->categoryName }}">
                     </div>
                 </div>
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Image:<sup class="text-danger">*</sup></strong>
-                        <input type="file" name="photo" id="photo" class="form-control" style="background-color: #30333a" >
+                        <input type="file" name="photo" id="photo" class="form-control"
+                            style="background-color: #30333a">
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
@@ -38,7 +40,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12" id="dropdownDiv" style="display: none;">
-                    <div class="form-group" >
+                    <div class="form-group">
                         <select name="parentCategory" id="cat_id" class="form-control" style="background-color: #30333a">
                             <option disabled selected>select category</option>
 
@@ -54,9 +56,8 @@
             </div> --}}
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
-                    <button type="button" id="editBtn" onclick="checkValidation()"
-                        class="btn btn-outline-primary btn-md mt-2 mb-3"><i class="fa-solid fa-floppy-disk"></i>
-                        Submit</button>
+                    <button type="button" id="updateBtn" class="btn btn-outline-primary btn-md mt-2 mb-3" value="{{ $category->id }}">
+                        <i class="fa-solid fa-floppy-disk"></i> Submit</button>
                 </div>
             </div>
         </form>
@@ -68,16 +69,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
 <script>
-    function checkValidation() {
-        toastr.clear();
-
-        if ($('#categoryName').val().trim() == '') {
-            toastr.error('Please enter name...');
-            return false;
-        }
-        saveData();
-    }
-
     function checkbox() {
         document.getElementById('flexCheckDefault');
         const dropdownDiv = document.getElementById('dropdownDiv');
@@ -87,4 +78,29 @@
             dropdownDiv.style.display = 'none';
         }
     }
+
+    $(document).ready(function() {
+
+        $(document).on("click", "#updateBtn", function() {
+            var url = "{{ route('category.update') }}";
+            var id =
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        type: 3,
+                        name: $('#categoryName').val(),
+                        email: $('#photo').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success('category  updated successfully.');
+                            $('#categoryForm')[0].reset();
+                        }
+                    },
+                });
+        });
+    });
 </script>

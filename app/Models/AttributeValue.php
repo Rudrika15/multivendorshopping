@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AttributeValue extends Model
 {
     use HasFactory;
-
+    protected $fillable = [
+        'value',
+        'attributeId',
+    ];
     public function attribute()
      {
         return $this->belongsTo(Attribute::class,'attributeId','id');

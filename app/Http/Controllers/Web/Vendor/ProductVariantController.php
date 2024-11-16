@@ -75,10 +75,10 @@ class ProductVariantController extends Controller
     {
         $products = Product::all();
         $productVariant = ProductVariant::find($id);
-        return view('Vendor.productVariants.edit', compact('productVariant', 'products'));
+        return view('Vendor.productVariants.edit', compact( 'products','productVariant'));
     }
 
-    public function update(Request $request)
+    public function update($id)
     {
         // $validator = Validator::make($request->all(), [
         //             'variantName' => 'required',
@@ -91,12 +91,11 @@ class ProductVariantController extends Controller
         //             return response()->json(['errors' => $validator->errors()], 422);
         //         }
 
-        $id  = $request->productVariantId;
         $productVariant = ProductVariant::find($id);
-        $productVariant->variantName = $request->variantName;
-        $productVariant->productId = $request->proId;
-        $productVariant->price = $request->price;
-        $productVariant->stock = $request->stock;
+        $productVariant->variantName = request('variantName');
+        $productVariant->productId = request('proId');
+        $productVariant->price = request('price');
+        $productVariant->stock = request('stock');
         $productVariant->save();
         return redirect()->route('productVariant.index')
             ->with('success', 'Product Variant Updated Successfully');

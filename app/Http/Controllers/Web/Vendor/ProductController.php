@@ -165,28 +165,28 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Product $product)
+    public function update($id)
     {
+        // $validator = Validator::make($request->all(), [
+        //             'variantName' => 'required',
+        //             'price' => 'required',
+        //             'stock' => 'required',
 
-        $id  = $request->productId;
+        //         ]);
+
+        //         if ($validator->fails()) {
+        //             return response()->json(['errors' => $validator->errors()], 422);
+        //         }
+
         $product = Product::find($id);
-        $product->userId = Auth::user()->id;
-        $storeId = Store::where('userId', Auth::user()->id)->pluck('id')->first();
-
-
-        $product->name = $request->input('name');
-        $product->description = $request->input('description');
-        $product->price = $request->input('price');
-        $product->categoryId = $request->input('c_id');
-        $product->slug = preg_replace('/\s+/', '-', $request->input('name'));
-        $product->storeId = $storeId;
-
+        $product->name = request('name');
+        $product->categoryId = request('cat_id');
+        $product->price = request('price');
+        $product->description = request('description');
         $product->save();
-
-
-        return response()->json(['status' => 201, 'success' => 'Product Updated Successfully!']);
+        return redirect()->route('product.index')
+            ->with('success', 'Product  Updated Successfully');
     }
-
 
     /**
      * Remove the specified resource from storage.

@@ -24,7 +24,7 @@
                     <strong>Variant Name:</strong>
                     <input type="text" name="variantName" id="variantName" value="{{ $productVariant->variantName }}"
                         class="form-control" placeholder="Name">
-                    
+
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
@@ -89,12 +89,13 @@
 			},
             success: function(response) {
                     if (response.success) {
-                        toastr.success('Product  updated successfully.');
-                        $('#productVariantForm')[0].reset(); // Clear the form
+                        toastr.success('Product Variant updated successfully.');
+                        $('#productVariantForm')[0].reset();
                     }
                 },
 		});
 	});
+});
 
     function checkValidation() {
         toastr.clear();
@@ -118,7 +119,6 @@
 
         saveData();
     }
-});
 
 
 

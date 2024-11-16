@@ -88,16 +88,27 @@ class CategoryController extends Controller
         return view('Vendor.categories.edit', compact('category', 'categories'));
     }
 
+    
     public function update(Request $request)
     {
+        // $validator = Validator::make($request->all(), [
+        //             'categoryName' => 'required',
+        //             'categoryIcon' => 'required',
+
+        //         ]);
+
+        //         if ($validator->fails()) {
+        //             return response()->json(['errors' => $validator->errors()], 422);
+        //         }
         $id  = $request->categoryId;
-        $category = Category::find($id);
-        $category->categoryName = $request->categoryName;
+        $category= Category::find($id);
+        $category->categoryName= request('categoryName');
         if ($request->parentId == "on") {
             $category->parentId = $request->parentCategory;
         } else {
             $category->parentId = "0";
         }
+
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
@@ -105,8 +116,11 @@ class CategoryController extends Controller
             $category->categoryIcon = $filename;
         }
         $category->save();
-        return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
+
+        return redirect()->route('category.index')
+            ->with('success', 'Category  Updated Successfully');
     }
+
     public function destroy($id)
     {
         $category = Category::find($id);
