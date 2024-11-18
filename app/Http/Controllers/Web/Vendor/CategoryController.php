@@ -88,7 +88,7 @@ class CategoryController extends Controller
         return view('Vendor.categories.edit', compact('category', 'categories'));
     }
 
-    
+
     public function update(Request $request)
     {
         // $validator = Validator::make($request->all(), [

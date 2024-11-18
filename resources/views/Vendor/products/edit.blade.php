@@ -73,31 +73,62 @@
 
 
     <script type="text/javascript">
-        $(document).ready(function() {
+    $(document).ready(function() {
 
-            $(document).on("click", "#updateBtn", function() {
-                var url = "{{ URL('product.update/' . $product->id) }}";
-                var id =
-                    $.ajax({
-                        url: url,
-                        type: "POST",
-                        cache: false,
-                        data: {
-                            _token: '{{ csrf_token() }}',
-                            type: 3,
-                            name: $('#name').val(),
-                            email: $('#description').val(),
-                            phone: $('#price').val(),
-                            city: $('#cat_id').val()
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                toastr.success('Product  updated successfully.');
-                                $('#productForm')[0].reset();
-                            }
-                        },
-                    });
-            });
+        $(document).on("click", "#updateBtn", function() {
+            if (checkValidation()) {
+                updateProduct();
+            }
         });
+
+        function checkValidation() {
+            toastr.clear();
+
+            if ($('#name').val().trim() == '') {
+                toastr.error('Please enter Product Name...');
+                return false;
+            }
+            if ($('#description').val().trim() == '') {
+                toastr.error('Please enter product description...');
+                return false;
+            }
+            if ($('#price').val().trim() == '') {
+                toastr.error('Please enter price...');
+                return false;
+            }
+            if ($('#cat_id').val().trim() == '') {
+                toastr.error('Please choose category...');
+                return false;
+            }
+
+            return true;
+        }
+
+        function updateProduct() {
+            var url = "{{URL('product.update/'.$product->id)}}";
+
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    type: 3,
+                    name: $('#name').val(),
+                    stock: $('#description').val(),
+                    price: $('#price').val(),
+                    productId: $('#cat_id').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Product updated successfully.');
+                        $('#productForm')[0].reset(); // Clear the form
+                    }
+                },
+            });
+        }
+
+    });
+
     </script>
 @endsection

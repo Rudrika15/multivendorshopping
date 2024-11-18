@@ -30,43 +30,4 @@
         'imageFields' => [''],
     ])
     @endcomponent
-    {{-- <script>
-        $(document).ready(function() {
-            $('#productTable').DataTable();
-
-            $(document).on('click', '.delete', function() {
-                var id = $(this).data('id');
-
-
-                if (confirm("Are you sure you want to delete this product?")) {
-                    $.ajax({
-                        url: "{{ route('product.destroy', ':id') }}".replace(':id',
-                            id),
-                        type: 'GET',
-                        data: {
-                            _token: "{{ csrf_token() }}"
-                        },
-                        success: function(response) {
-                            console.log("resposne", response)
-                            if (response) {
-                                toastr.success('Product deleted successfully.');
-                                $('#productTable').DataTable().ajax
-                                    .reload();
-                            } else {
-                                toastr.error('Something went wrong.');
-                            }
-                        },
-                        error: function(xhr) {
-                            let errors = xhr.responseJSON.errors;
-                            if (errors) {
-                                $.each(errors, function(key, value) {
-                                    toastr.error(value[0]);
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
-    </script> --}}
 @endsection

@@ -70,57 +70,62 @@
 
 
     <script>
-        $(document).ready(function(){
+    $(document).ready(function() {
 
-    $(document).on("click", "#updateBtn", function() {
-        var url = "{{URL('productVariant.update/'.$productVariant->id)}}";
-        var id=
-		$.ajax({
-			url: url,
-			type: "POST",
-			cache: false,
-			data:{
-                _token:'{{ csrf_token() }}',
-				type: 3,
-				name: $('#variantName').val(),
-				email: $('#stock').val(),
-				phone: $('#price').val(),
-				city: $('#proId').val()
-			},
-            success: function(response) {
-                    if (response.success) {
-                        toastr.success('Product Variant updated successfully.');
-                        $('#productVariantForm')[0].reset();
-                    }
-                },
-		});
-	});
-});
+        $(document).on("click", "#updateBtn", function() {
+            if (checkValidation()) {
+                updateProductVariant();
+            }
+        });
 
-    function checkValidation() {
-        toastr.clear();
+        function checkValidation() {
+            toastr.clear();
 
-        if ($('#variantName').val().trim() == '') {
-            toastr.error('Please enter Variant Name...');
-            return false;
-        }
-        if ($('#productId').val().trim() == '') {
+            if ($('#variantName').val().trim() == '') {
+                toastr.error('Please enter Variant Name...');
+                return false;
+            }
+            if ($('#productId').val().trim() == '') {
                 toastr.error('Please choose Product...');
                 return false;
-        }
-        if ($('#price').val().trim() == '') {
+            }
+            if ($('#price').val().trim() == '') {
                 toastr.error('Please enter price...');
                 return false;
-        }
-        if ($('#stock').val().trim() == '') {
+            }
+            if ($('#stock').val().trim() == '') {
                 toastr.error('Please enter stock...');
                 return false;
+            }
+
+            return true;
         }
 
-        saveData();
-    }
+        function updateProductVariant() {
+            var url = "{{URL('productVariant.update/'.$productVariant->id)}}";
 
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    type: 3,
+                    name: $('#variantName').val(),
+                    stock: $('#stock').val(),
+                    price: $('#price').val(),
+                    productId: $('#productId').val()
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Product Variant updated successfully.');
+                        $('#productVariantForm')[0].reset(); // Clear the form
+                    }
+                },
+            });
+        }
 
+    });
+</script>
+@endsection
 
-    </script>
-    @endsection
