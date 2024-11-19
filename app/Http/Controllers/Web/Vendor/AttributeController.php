@@ -71,11 +71,12 @@ class AttributeController extends Controller
 
 
 
-   public function update(Request $request)
+    public function update($id)
     {
         // $validator = Validator::make($request->all(), [
-        //             'name' => 'required',
-        //
+        //             'variantName' => 'required',
+        //             'price' => 'required',
+        //             'stock' => 'required',
 
         //         ]);
 
@@ -83,10 +84,10 @@ class AttributeController extends Controller
         //             return response()->json(['errors' => $validator->errors()], 422);
         //         }
 
-        $id  = $request->attributeId;
         $attribute = Attribute::find($id);
-        $attribute->name = $request->name;
-        $attribute->categoryId = $request->catId;
+        $attribute->name = request('name');
+        $attribute->categoryId = request('catId');
+
         $attribute->save();
         return redirect()->route('attribute.index')
             ->with('success', 'Attribute Updated Successfully');

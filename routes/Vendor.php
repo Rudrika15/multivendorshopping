@@ -58,7 +58,7 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::post('attribute/store', [AttributeController::class, 'store'])->name('attribute.store');
     Route::post('attribute/delete/{id?}', [AttributeController::class, 'destroy'])->name('attribute.destroy');
     Route::get('attribute/edit/{id?}', [AttributeController::class, 'edit'])->name('attribute.edit');
-    Route::post('attribute/update',[AttributeController::class,'update'] )->name('attribute.update');
+    Route::post('attribute/update/{id?}',[AttributeController::class,'update'] )->name('attribute.update');
 
 
 
@@ -67,7 +67,7 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::post('attributeValue/store', [AttributeValueController::class, 'store'])->name('attributeValue.store');
     Route::post('attributeValue/delete/{id?}', [AttributeValueController::class, 'destroy'])->name('attributeValue.destroy');
     Route::get('attributeValue/edit/{id?}', [AttributeValueController::class, 'edit'])->name('attributeValue.edit');
-    Route::post('attributeValue/update',[AttributeValueController::class,'update'] )->name('attributeValue.update');
+    Route::post('attributeValue/update/{id?}',[AttributeValueController::class,'update'] )->name('attributeValue.update');
 
 
 

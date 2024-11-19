@@ -12,8 +12,8 @@
     </div>
 
 
-    <form id="attributeForm" action="{{ route('attribute.update',$attribute->id) }}" method="post" >
-         @csrf
+    <form id="attributeForm" action="{{ route('attribute.update', $attribute->id) }}" method="post">
+        @csrf
         {{-- @method('PATCH') --}}
 
         <div class="row">
@@ -22,9 +22,9 @@
 
                 <div class="form-group">
                     <strong> Name:</strong>
-                    <input type="text" name="name" id="name" value="{{ $attribute->name }}"
-                        class="form-control" placeholder="Name">
-            </div>
+                    <input type="text" name="name" id="name" value="{{ $attribute->name }}" class="form-control"
+                        placeholder="Name">
+                </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
@@ -54,34 +54,53 @@
 
 
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
+            $(document).on("click", "#updateBtn", function(e) {
+                e.preventDefault();
+                if (checkValidation() == true) {
+                    updateAttribute();
+                }
+            });
 
-    $(document).on("click", "#updateBtn", function() {
-        var url = "{{URL('attribute.update/'.$attribute->id)}}";
-        var id=
-		$.ajax({
-			url: url,
-			type: "POST",
-			cache: false,
-			data:{
-                _token:'{{ csrf_token() }}',
-				type: 3,
-				name: $('#name').val(),
-				city: $('#catId').val()
-			},
-            success: function(response) {
-                    if (response.success) {
-                        toastr.success('Attribute updated successfully.');
-                        $('#attributeForm')[0].reset(); // Clear the form
-                    }
-                },
-		});
-	});
+            function checkValidation() {
+                toastr.clear();
+
+                if ($('#name').val().trim() == '') {
+                    toastr.error('Please enter Attribute Name...');
+                    return false;
+                }
 
 
-});
+                if ($('#catId').val().trim() == '') {
+                    toastr.error('Please choose Category...');
+                    return false;
+                }
 
+                return true;
+            }
 
+            function updateAttribute() {
+                var url = "{{ URL('attribute.update/' . $attribute->id) }}";
 
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        type: 3,
+                        name: $('#name').val(),
+                        catId: $('#catId').val()
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success('Attribute  updated successfully.');
+                            $('#attributeForm')[0].reset(); 
+                        }
+                    },
+                });
+            }
+
+        });
     </script>
-    @endsection
+@endsection
