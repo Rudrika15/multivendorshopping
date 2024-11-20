@@ -95,7 +95,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success('Attribute  updated successfully.');
-                            $('#attributeForm')[0].reset(); 
+                            $('#attributeForm')[0].reset();
                         }
                     },
                 });

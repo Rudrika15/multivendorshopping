@@ -18,8 +18,8 @@
                 <div class="col-xs-12 col-sm-12 col-md-12">
                     <div class="form-group">
                         <strong>Name:<sup class="text-danger">*</sup></strong>
-                        <input type="text" name="categoryName" id="categoryName" class="form-control" placeholder="Name"
-                            value="{{ $category->categoryName }}">
+                        <input type="text" name="categoryName" id="categoryName" class="form-control"
+                            placeholder="enter Category Name" value="{{ $category->categoryName }}">
                     </div>
                 </div>
 
@@ -44,19 +44,20 @@
                         <select name="parentCategory" id="cat_id" class="form-control" style="background-color: #30333a">
                             <option disabled selected>select category</option>
 
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                            @foreach ($categories as $cat)
+                                <option value="{{ $cat->id }}">{{ $cat->categoryName }}</option>
                             @endforeach
                         </select>
                     </div>
                 </div>
-                {{-- <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12">
 
-                    <img src="{{ asset('categories') }}/{{ $category->categoryIcon }}" style="width: 100px" alt="" >
-            </div> --}}
+                    <img src="{{ asset('categories') }}/{{ $category->categoryIcon }}" style="width: 100px" alt="">
+                </div>
 
                 <div class="col-xs-12 col-sm-12 col-md-12">
-                    <button type="button" id="updateBtn" class="btn btn-outline-primary btn-md mt-2 mb-3" value="{{ $category->id }}">
+                    <button type="button" id="updateBtn" class="btn btn-outline-primary btn-md mt-2 mb-3"
+                        value="{{ $category->id }}">
                         <i class="fa-solid fa-floppy-disk"></i> Submit</button>
                 </div>
             </div>
@@ -81,26 +82,44 @@
 
     $(document).ready(function() {
 
-        $(document).on("click", "#updateBtn", function() {
-            var url = "{{ route('category.update') }}";
-            var id =
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    cache: false,
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        type: 3,
-                        name: $('#categoryName').val(),
-                        email: $('#photo').val()
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            toastr.success('category  updated successfully.');
-                            $('#categoryForm')[0].reset();
-                        }
-                    },
-                });
-        });
+$(document).on("click", "#updateBtn", function() {
+    if (checkValidation()) {
+        updateProduct();
+    }
+});
+
+function checkValidation() {
+    toastr.clear();
+
+    if ($('#categoryName').val().trim() == '') {
+        toastr.error('Please enter category Name...');
+        return false;
+    }
+
+    return true;
+}
+
+function updateProduct() {
+    var url = "{{URL('category.update/')}}";
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        cache: false,
+        data: {
+            _token: '{{ csrf_token() }}',
+            type: 3,
+            name: $('#categoryName').val(),
+            photo: $('#photo').val()
+        },
+        success: function(response) {
+            if (response.success) {
+                toastr.success('Category updated successfully.');
+                $('#categoryForm')[0].reset(); // Clear the form
+            }
+        },
     });
+}
+
+});
 </script>

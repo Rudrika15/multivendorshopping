@@ -101,19 +101,20 @@ class CategoryController extends Controller
         //             return response()->json(['errors' => $validator->errors()], 422);
         //         }
         $id  = $request->categoryId;
-        $category= Category::find($id);
-        $category->categoryName= request('categoryName');
-        if ($request->parentId == "on") {
-            $category->parentId = $request->parentCategory;
-        } else {
-            $category->parentId = "0";
-        }
+        $category = Category::find($id);
+        $category->categoryName =  $request->categoryName;
+
 
         if ($request->hasFile('photo')) {
             $file = $request->file('photo');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('categories'), $filename);
             $category->categoryIcon = $filename;
+        }
+        if ($request->parentId == "on") {
+            $category->parentId = $request->parentCategory;
+        } else {
+            $category->parentId = "0";
         }
         $category->save();
 
