@@ -100,6 +100,7 @@ class CategoryController extends Controller
         //         if ($validator->fails()) {
         //             return response()->json(['errors' => $validator->errors()], 422);
         //         }
+        // return $request;
         $id  = $request->categoryId;
         $category = Category::find($id);
         $category->categoryName =  $request->categoryName;
