@@ -12,13 +12,13 @@
     </div>
 
 
-    <form id="productVariantForm" action="{{ route('productVariant.update',$productVariant->id) }}" method="post" >
-         @csrf
+    <form id="productVariantForm" action="{{ route('productVariant.update') }}" method="post">
+        @csrf
         {{-- @method('PATCH') --}}
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <input type="hidden" name="productVariantId" value="{{ $productVariant->id }}">
+                <input type="hidden" name="productVariantId" value="{{ $productVariant->id }}" id="productVariantId">
 
                 <div class="form-group">
                     <strong>Variant Name:</strong>
@@ -70,62 +70,74 @@
 
 
     <script>
-    $(document).ready(function() {
+        $(document).ready(function() {
 
-        $(document).on("click", "#updateBtn", function() {
-            if (checkValidation()) {
-                updateProductVariant();
+            $('#updateBtn').on('click', function(e) {
+                e.preventDefault();
+
+                if (validateForm()) {
+                    updateProductVariant();
+                }
+            });
+
+            function updateProductVariant() {
+                var url = "{{ route('productVariant.update') }}";
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: $('#productVariantId').val(),
+                        variantName: $('#variantName').val(),
+                        proId: $('#proId').val(),
+                        price: $('#price').val(),
+                        stock: $('#stock').val(),
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(' Product Variant updated successfully.');
+                            $('#productVariantForm')[0].reset(); // Reset the form
+                        } else {
+                            toastr.error(response.message || 'An error occurred while updating.');
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            }
+
+            // Form validation function
+            function validateForm() {
+                let variantName = $('#variantName').val().trim();
+                let proId = $('#proId').val();
+                let price = $('#price').val().trim();
+                let stock = $('#stock').val().trim();
+
+
+
+                if (!variantName) {
+                    toastr.error('Please enter product variant name.');
+                    return false;
+                }
+
+                if (!proId) {
+                    toastr.error('Please choose an product.');
+                    return false;
+                }
+                if (!price) {
+                    toastr.error('Please enter product price.');
+                    return false;
+                }
+                if (!stock) {
+                    toastr.error('Please enter product stock.');
+                    return false;
+                }
+
+                return true; // Form is valid
             }
         });
-
-        function checkValidation() {
-            toastr.clear();
-
-            if ($('#variantName').val().trim() == '') {
-                toastr.error('Please enter Variant Name...');
-                return false;
-            }
-            if ($('#productId').val().trim() == '') {
-                toastr.error('Please choose Product...');
-                return false;
-            }
-            if ($('#price').val().trim() == '') {
-                toastr.error('Please enter price...');
-                return false;
-            }
-            if ($('#stock').val().trim() == '') {
-                toastr.error('Please enter stock...');
-                return false;
-            }
-
-            return true;
-        }
-
-        function updateProductVariant() {
-            var url = "{{URL('productVariant.update/'.$productVariant->id)}}";
-
-            $.ajax({
-                url: url,
-                type: "POST",
-                cache: false,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    type: 3,
-                    name: $('#variantName').val(),
-                    stock: $('#stock').val(),
-                    price: $('#price').val(),
-                    productId: $('#productId').val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success('Product Variant updated successfully.');
-                        $('#productVariantForm')[0].reset(); // Clear the form
-                    }
-                },
-            });
-        }
-
-    });
-</script>
+    </script>
 @endsection
-

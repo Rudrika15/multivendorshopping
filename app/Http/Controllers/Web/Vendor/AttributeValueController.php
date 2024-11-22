@@ -7,12 +7,14 @@ use App\Models\Attribute;
 use App\Models\AttributeValue;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
+
 
 
 class AttributeValueController extends Controller
 {
 
-function __construct()
+    function __construct()
     {
         $this->middleware('permission:attributeValue-list|attributeValue-create|attributeValue-edit|attributeValue-delete', ['only' => ['index']]);
         $this->middleware('permission:attributeValue-create', ['only' => ['create', 'store']]);
@@ -44,11 +46,11 @@ function __construct()
     public function create()
     {
         $attributes = Attribute::all();
-        return view('Vendor.attributeValues.create',compact('attributes'));
+        return view('Vendor.attributeValues.create', compact('attributes'));
     }
     public function store(Request $request)
     {
-         // // Validation
+        // // Validation
         // $validated = $request->validate([
         //     'value' => 'required',
         //      'attributeId' => 'required',
@@ -60,34 +62,48 @@ function __construct()
 
         $attributeValue->save();
         return response()->json(['success' => 'Attribute Value Created Successfully.']);
-
     }
     public function edit($id)
     {
         $attributes = Attribute::all();
         $attributeValue = AttributeValue::find($id);
-        return view('Vendor.attributeValues.edit', compact('attributeValue','attributes'));
+        return view('Vendor.attributeValues.edit', compact('attributeValue', 'attributes'));
     }
 
+    // public function update(Request $request)
+    // {
+    //     // $validator = Validator::make($request->all(), [
+    //     //     'value' => 'required',
+
+
+    //     // ]);
+
+    //     // if ($validator->fails()) {
+    //     //     return response()->json(['errors' => $validator->errors()], 422);
+    //     // }
+    //     // return $request;
+    //     $id  = $request->attributeValueId;
+    //     $attributeValue = AttributeValue::find($id);
+    //     $attributeValue->value = $request->value;
+    //     $attributeValue->attributeId = $request->attrId;
+    //     $attributeValue->save();
+    //     return redirect()->route('attributeValue.index')
+    //         ->with('success', 'Attribute Value Updated Successfully');
+    // }
     public function update(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //             'value' => 'required',
-        //
+        $request->validate([
+            'id' => 'required',
+            'value' => 'required|string|max:255',
+            'attrId' => 'required',
+        ]);
 
-        //         ]);
-
-        //         if ($validator->fails()) {
-        //             return response()->json(['errors' => $validator->errors()], 422);
-        //         }
-
-        $id  = $request->attributeValueId;
-        $attributeValue = AttributeValue::find($id);
+        $attributeValue = AttributeValue::find($request->id);
         $attributeValue->value = $request->value;
         $attributeValue->attributeId = $request->attrId;
+
         $attributeValue->save();
-        return redirect()->route('attributeValue.index')
-            ->with('success', 'Attribute Value Updated Successfully');
+        return response()->json(['success' => true, 'message' => 'Attribute Value updated successfully.']);
     }
     public function destroy($id)
     {

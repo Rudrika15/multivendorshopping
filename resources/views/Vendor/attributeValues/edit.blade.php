@@ -6,43 +6,41 @@
             <h3>Edit Attribute Value</h3>
         </div>
         <div>
-            <a href="{{ route('attributeValue.index') }}" class="btn btn-primary"><i class="fa-solid fa-arrow-left"></i>
-                Back</a>
+            <a href="{{ route('attributeValue.index') }}" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left"></i> Back
+            </a>
         </div>
     </div>
 
+    <form id="attributeValueForm" action="{{ route('attributeValue.update') }}" method="post">
 
-    <form id="attributeValueForm" action="{{ route('attributeValue.update', $attributeValue->id) }}" method="post">
         @csrf
-        {{-- @method('PATCH') --}}
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <input type="hidden" name="attributeValueId" value="{{ $attributeValue->id }}">
+                <input type="hidden" name="attributeValueId" id="attributeValueId" value="{{ $attributeValue->id }}">
 
                 <div class="form-group">
                     <strong> Name:</strong>
                     <input type="text" name="value" id="value" value="{{ $attributeValue->value }}"
-                        class="form-control" placeholder="value">
+                        class="form-control" placeholder="Enter value">
                 </div>
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Choose a Attribute:<sup class="text-danger">*</sup></strong>
+                    <strong>Choose an Attribute:<sup class="text-danger">*</sup></strong>
                     <select name="attrId" id="attrId" class="form-control bg-dark">
-                        <option disabled selected>select attribute</option>
+                        <option disabled selected>Select attribute</option>
                         @foreach ($attributes as $attribute)
                             <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
                         @endforeach
-
                     </select>
                 </div>
             </div>
 
-
             <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
-                <button class="btn btn-primary" id="updateBtn" value="{{ $attributeValue->id }}">Submit</button>
-
+                <button type="button" class="btn btn-primary" id="updateBtn"
+                    value="{{ $attributeValue->id }}">Submit</button>
             </div>
         </div>
     </form>
@@ -51,37 +49,20 @@
     <script src="https://cdn.jsdelivr.net/jquery.validation/1.19.5/jquery.validate.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
-
-
-
     <script>
         $(document).ready(function() {
+            // Intercept button click for form submission
+            $('#updateBtn').on('click', function(e) {
+                e.preventDefault(); // Prevent the form's default submission
 
-            $(document).on("click", "#updateBtn", function() {
-                if (checkValidation()) {
+                if (validateForm()) {
                     updateAttributeValue();
                 }
             });
 
-            function checkValidation() {
-                toastr.clear();
-
-                if ($('#value').val().trim() == '') {
-                    toastr.error('Please enter Attribute Value...');
-                    return false;
-                }
-
-
-                if ($('#attrId').val().trim() == '') {
-                    toastr.error('Please choose Attribute...');
-                    return false;
-                }
-
-                return true;
-            }
-
+            // Function to update the attribute value via AJAX
             function updateAttributeValue() {
-                var url = "{{ URL('attributeValue.update/' . $attributeValue->id) }}";
+                var url = "{{ route('attributeValue.update') }}";
 
                 $.ajax({
                     url: url,
@@ -89,19 +70,41 @@
                     cache: false,
                     data: {
                         _token: '{{ csrf_token() }}',
-                        type: 3,
-                        name: $('#value').val(),
-                        attrId: $('#attrId').val()
+                        id: $('#attributeValueId').val(),
+                        value: $('#value').val(),
+                        attrId: $('#attrId').val(),
                     },
                     success: function(response) {
                         if (response.success) {
                             toastr.success('Attribute Value updated successfully.');
-                            $('#attributeValueForm')[0].reset(); // Clear the form
+                            $('#attributeValueForm')[0].reset(); // Reset the form
+                        } else {
+                            toastr.error(response.message || 'An error occurred while updating.');
                         }
                     },
+                    error: function(xhr) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
                 });
             }
 
+            // Form validation function
+            function validateForm() {
+                let value = $('#value').val().trim();
+                let attrId = $('#attrId').val();
+
+                if (!value) {
+                    toastr.error('Please enter Attribute Value.');
+                    return false;
+                }
+
+                if (!attrId) {
+                    toastr.error('Please choose an Attribute.');
+                    return false;
+                }
+
+                return true; // Form is valid
+            }
         });
     </script>
 @endsection

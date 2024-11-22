@@ -49,7 +49,7 @@ class AttributeController extends Controller
     public function store(Request $request)
     {
 
-         // // Validation
+        // // Validation
         // $validated = $request->validate([
         //     'name' => 'required',
         //      'categoryId' => 'required',
@@ -66,31 +66,25 @@ class AttributeController extends Controller
     {
         $categories = Category::all();
         $attribute = Attribute::find($id);
-        return view('Vendor.attributes.edit', compact('attribute','categories'));
+        return view('Vendor.attributes.edit', compact('attribute', 'categories'));
     }
 
 
 
-    public function update($id)
+    public function update(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //             'variantName' => 'required',
-        //             'price' => 'required',
-        //             'stock' => 'required',
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required|string|max:255',
+            'catId' => 'required',
+        ]);
 
-        //         ]);
-
-        //         if ($validator->fails()) {
-        //             return response()->json(['errors' => $validator->errors()], 422);
-        //         }
-
-        $attribute = Attribute::find($id);
-        $attribute->name = request('name');
-        $attribute->categoryId = request('catId');
+        $attribute = Attribute::find($request->id);
+        $attribute->name = $request->name;
+        $attribute->categoryId = $request->catId;
 
         $attribute->save();
-        return redirect()->route('attribute.index')
-            ->with('success', 'Attribute Updated Successfully');
+        return response()->json(['success' => true, 'message' => 'Attribute updated successfully.']);
     }
 
     public function destroy($id)

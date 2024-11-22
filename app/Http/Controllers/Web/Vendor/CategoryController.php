@@ -91,16 +91,8 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //             'categoryName' => 'required',
-        //             'categoryIcon' => 'required',
 
-        //         ]);
-
-        //         if ($validator->fails()) {
-        //             return response()->json(['errors' => $validator->errors()], 422);
-        //         }
-        // return $request;
+        return $request;
         $id  = $request->categoryId;
         $category = Category::find($id);
         $category->categoryName =  $request->categoryName;
