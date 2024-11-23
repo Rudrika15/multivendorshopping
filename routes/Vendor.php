@@ -33,7 +33,7 @@ Route::group(['prefix' => 'vendor', 'middleware' => ['auth']], function () {
     Route::get('product/create', [ProductController::class, 'create'])->name('product.create');
     Route::post('product/store', [ProductController::class, 'store'])->name('product.store');
     Route::get('product/edit/{id?}', [ProductController::class, 'edit'])->name('product.edit');
-    Route::post('product/update/{id?}', [ProductController::class, 'update'])->name('product.update');
+    Route::post('product/update', [ProductController::class, 'update'])->name('product.update');
     Route::post('product/delete/{id?}', [ProductController::class, 'destroy'])->name('product.destroy');
 
     Route::get('category/index', [CategoryController::class, 'index'])->name('category.index');

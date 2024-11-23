@@ -91,11 +91,10 @@ class ProductVariantController extends Controller
         ]);
 
         $productVariant = ProductVariant::find($request->id);
-        $productVariant->variantName = request('variantName');
-        $productVariant->productId = request('proId');
-        $productVariant->price = request('price');
-        $productVariant->stock = request('stock');
-        $productVariant->save();
+        $productVariant->variantName = $request->variantName;
+        $productVariant->productId = $request->proId;
+        $productVariant->price = $request->price;
+        $productVariant->stock = $request->stock;
         return response()->json(['success' => true, 'message' => 'Product Variant updated successfully.']);
     }
 

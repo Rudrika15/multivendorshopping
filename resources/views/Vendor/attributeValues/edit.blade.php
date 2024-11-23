@@ -51,16 +51,14 @@
 
     <script>
         $(document).ready(function() {
-            // Intercept button click for form submission
             $('#updateBtn').on('click', function(e) {
-                e.preventDefault(); // Prevent the form's default submission
+                e.preventDefault();
 
                 if (validateForm()) {
                     updateAttributeValue();
                 }
             });
 
-            // Function to update the attribute value via AJAX
             function updateAttributeValue() {
                 var url = "{{ route('attributeValue.update') }}";
 
@@ -77,7 +75,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success('Attribute Value updated successfully.');
-                            $('#attributeValueForm')[0].reset(); // Reset the form
+                            $('#attributeValueForm')[0].reset();
                         } else {
                             toastr.error(response.message || 'An error occurred while updating.');
                         }
@@ -88,7 +86,6 @@
                 });
             }
 
-            // Form validation function
             function validateForm() {
                 let value = $('#value').val().trim();
                 let attrId = $('#attrId').val();
@@ -103,7 +100,7 @@
                     return false;
                 }
 
-                return true; // Form is valid
+                return true;
             }
         });
     </script>

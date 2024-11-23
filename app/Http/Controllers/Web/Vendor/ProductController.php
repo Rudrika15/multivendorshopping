@@ -165,28 +165,26 @@ class ProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function update($id)
+    public function update(Request $request)
     {
-        // $validator = Validator::make($request->all(), [
-        //             'variantName' => 'required',
-        //             'price' => 'required',
-        //             'stock' => 'required',
+        $request->validate([
+            'id' => 'required',
+            'name' => 'required|string|max:255',
+            'cat_id' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+        ]);
 
-        //         ]);
-
-        //         if ($validator->fails()) {
-        //             return response()->json(['errors' => $validator->errors()], 422);
-        //         }
-
-        $product = Product::find($id);
-        $product->name = request('name');
-        $product->categoryId = request('cat_id');
-        $product->price = request('price');
-        $product->description = request('description');
+        $product = Product::find($request->id);
+        $product->name = $request->input('name');
+        $product->description = $request->input('description');
+        $product->price = $request->input('price');
+        $product->categoryId = $request->input('cat_id');
         $product->save();
-        return redirect()->route('product.index')
-            ->with('success', 'Product  Updated Successfully');
+        return response()->json(['success' => true, 'message' => 'Product  updated successfully.']);
     }
+
+
 
     /**
      * Remove the specified resource from storage.

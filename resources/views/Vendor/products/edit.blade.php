@@ -12,23 +12,21 @@
     </div>
 
 
-
-    <form id="productForm" action="{{ route('product.update', $product->id) }}" method="post">
-         @csrf
-        {{-- @method('PATCH')  --}}
+    <form id="productForm" action="{{ route('product.update') }}" method="post">
+        @csrf
+        {{-- @method('PATCH') --}}
 
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <input type="hidden" value="{{ $product->id }}" name="productId">
+                <input type="hidden" name="productId" value="{{ $product->id }}" id="productId">
 
                 <div class="form-group">
-                    <strong>Name :<sup class="text-danger">*</sup></strong>
-                    <input type="text" name="name" id="name" class="form-control" placeholder="Name"
-                        value="{{ $product->name }}">
+                    <strong>Name:</strong>
+                    <input type="text" name="name" id="name" value="{{ $product->name }}" class="form-control"
+                        placeholder="Name">
+
                 </div>
             </div>
-
-
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Description:<sup class="text-danger">*</sup></strong>
@@ -36,7 +34,6 @@
 
                 </div>
             </div>
-
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Choose a category:<sup class="text-danger">*</sup></strong>
@@ -49,20 +46,20 @@
                     </select>
                 </div>
             </div>
-
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Price:<sup class="text-danger">*</sup></strong>
-                    <input type="text" name="price" id="price" class="form-control" placeholder="Price"
-                        value="{{ $product->price }}">
+                    <strong>price:</strong>
+                    <input type="text" name="price" id="price" value="{{ $product->price }}" class="form-control"
+                        placeholder="Price">
+                    <div class="alert alert-danger mt-1 mb-1 d-none" id="price-error"></div>
                 </div>
             </div>
+
             <div class="col-xs-12 col-sm-12 col-md-12">
-                <button class="btn btn-primary" id="updateBtn" value="{{ $product->id }}"><i class="fa-solid fa-floppy-disk"></i>Submit</button>
+                <button class="btn btn-primary" id="updateBtn" value="{{ $product->id }}">Submit</button>
 
             </div>
         </div>
-
     </form>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -72,63 +69,75 @@
 
 
 
-    <script type="text/javascript">
-    $(document).ready(function() {
+    <script>
+        $(document).ready(function() {
 
-        $(document).on("click", "#updateBtn", function() {
-            if (checkValidation()) {
-                updateProduct();
+            $('#updateBtn').on('click', function(e) {
+                e.preventDefault();
+
+                if (validateForm()) {
+                    updateProduct();
+                }
+            });
+
+            function updateProduct() {
+                var url = "{{ route('product.update') }}";
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: $('#productId').val(),
+                        name: $('#name').val(),
+                        description: $('#description').val(),
+                        cat_id: $('#cat_id').val(),
+                        price: $('#price').val(),
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(' Product  updated successfully.');
+                            $('#productForm')[0].reset();
+                        } else {
+                            toastr.error(response.message || 'An error occurred while updating.');
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            }
+
+            function validateForm() {
+                let name = $('#name').val().trim();
+                let description = $('#description').val().trim();
+                let cat_id = $('#cat_id').val();
+                let price = $('#price').val().trim();
+
+
+
+                if (!name) {
+                    toastr.error('Please enter product  name.');
+                    return false;
+                }
+                if (!description) {
+                    toastr.error('Please enter product description.');
+                    return false;
+                }
+
+                if (!cat_id) {
+                    toastr.error('Please choose an category.');
+                    return false;
+                }
+                if (!price) {
+                    toastr.error('Please enter product price.');
+                    return false;
+                }
+
+
+                return true;
             }
         });
-
-        function checkValidation() {
-            toastr.clear();
-
-            if ($('#name').val().trim() == '') {
-                toastr.error('Please enter Product Name...');
-                return false;
-            }
-            if ($('#description').val().trim() == '') {
-                toastr.error('Please enter product description...');
-                return false;
-            }
-            if ($('#price').val().trim() == '') {
-                toastr.error('Please enter price...');
-                return false;
-            }
-            if ($('#cat_id').val().trim() == '') {
-                toastr.error('Please choose category...');
-                return false;
-            }
-
-            return true;
-        }
-
-        function updateProduct() {
-            var url = "{{URL('product.update/'.$product->id)}}";
-
-            $.ajax({
-                url: url,
-                type: "POST",
-                cache: false,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    type: 3,
-                    name: $('#name').val(),
-                    stock: $('#description').val(),
-                    price: $('#price').val(),
-                    productId: $('#cat_id').val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success('Product updated successfully.');
-                        $('#productForm')[0].reset(); // Clear the form
-                    }
-                },
-            });
-        }
-
-    });
-
     </script>
 @endsection

@@ -50,7 +50,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
 
                     <img src="{{ asset('categories') }}/{{ $category->categoryIcon }}" style="width: 100px" alt="">
                 </div>
@@ -62,64 +62,69 @@
             </div>
         </form>
     </div>
-@endsection
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
-<script>
-    function checkbox() {
-        document.getElementById('flexCheckDefault');
-        const dropdownDiv = document.getElementById('dropdownDiv');
-        if (flexCheckDefault.checked) {
-            dropdownDiv.style.display = 'block';
-        } else {
-            dropdownDiv.style.display = 'none';
+    <script>
+        function checkbox() {
+            document.getElementById('flexCheckDefault');
+            const dropdownDiv = document.getElementById('dropdownDiv');
+            if (flexCheckDefault.checked) {
+                dropdownDiv.style.display = 'block';
+            } else {
+                dropdownDiv.style.display = 'none';
+            }
         }
-    }
 
-    $(document).ready(function() {
 
-        $(document).on("click", "#updateBtn", function() {
-            if (checkValidation()) {
-                updateCategory();
+        $(document).ready(function() {
+
+            $('#updateBtn').on('click', function(e) {
+                e.preventDefault();
+
+                if (validateForm()) {
+                    updatecategory();
+                }
+            });
+
+            function updatecategory() {
+                var url = "{{ route('category.update') }}";
+
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: $('#categoryId').val(),
+                        categoryName: $('#categoryName').val(),
+                        photo: $('#photo').val(),
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success(' category updated successfully.');
+                            $('#categoryForm')[0].reset();
+                        } else {
+                            toastr.error(response.message || 'An error occurred while updating.');
+                        }
+                    },
+                    error: function(xhr) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            }
+
+            function validateForm() {
+                let categoryName = $('#categoryName').val().trim();
+
+                if (!categoryName) {
+                    toastr.error('Please enter category name.');
+                    return false;
+                }
+                return true;
             }
         });
-
-        function checkValidation() {
-            toastr.clear();
-
-            if ($('#categoryName').val().trim() == '') {
-                toastr.error('Please enter category Name...');
-                return false;
-            }
-
-            return true;
-        }
-
-        function updateCategory() {
-            var url = "{{ route('category.update') }}";
-
-            $.ajax({
-                url: url,
-                type: "POST",
-                cache: false,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    type: 3,
-                    id: $('#categoryId').val(),
-                    name: $('#categoryName').val(),
-                    photo: $('#photo').val()
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success('Category updated successfully.');
-                        $('#categoryForm')[0].reset();
-                    }
-                },
-            });
-        }
-
-    });
-</script>
+    </script>
+@endsection
