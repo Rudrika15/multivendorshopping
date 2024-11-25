@@ -33,7 +33,10 @@
                     <select name="catId" id="catId" class="form-control bg-dark">
                         <option disabled selected>select category</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                            <option value="{{ $category->id }}"
+                                {{ $category->id == $attribute->categoryId ? 'selected' : '' }}>
+                                {{ $category->categoryName }}
+                            </option>
                         @endforeach
 
                     </select>
@@ -76,7 +79,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success('Attribute updated successfully.');
-                            $('#attributeForm')[0].reset();
+                            $('#attributeForm')[0].reload();
                         } else {
                             toastr.error(response.message || 'An error occurred while updating.');
                         }

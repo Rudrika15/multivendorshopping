@@ -21,24 +21,30 @@
                 <input type="hidden" name="productVariantId" value="{{ $productVariant->id }}" id="productVariantId">
 
                 <div class="form-group">
-                    <strong>Variant Name:</strong>
+                    <strong>Name:</strong>
                     <input type="text" name="variantName" id="variantName" value="{{ $productVariant->variantName }}"
                         class="form-control" placeholder="Name">
 
                 </div>
             </div>
+
+
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>Choose a Product:<sup class="text-danger">*</sup></strong>
                     <select name="proId" id="proId" class="form-control bg-dark">
-                        <option disabled selected>select Product</option>
+                        <option disabled>Select Product</option>
                         @foreach ($products as $product)
-                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                            <option value="{{ $product->id }}"
+                                {{ $product->id == $productVariant->productId ? 'selected' : '' }}>
+                                {{ $product->name }}
+                            </option>
                         @endforeach
-
                     </select>
                 </div>
             </div>
+
+
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
                     <strong>price:</strong>
@@ -49,12 +55,13 @@
             </div>
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <div class="form-group">
-                    <strong>Stock:</strong>
+                    <strong>stock:</strong>
                     <input type="text" name="stock" id="stock" value="{{ $productVariant->stock }}"
-                        class="form-control" placeholder="stock">
-                    <div class="alert alert-danger mt-1 mb-1 d-none" id="stock-error"></div>
+                        class="form-control" placeholder="Price">
+                    <div class="alert alert-danger mt-1 mb-1 d-none" id="price-error"></div>
                 </div>
             </div>
+
             <div class="col-xs-12 col-sm-12 col-md-12">
                 <button class="btn btn-primary" id="updateBtn" value="{{ $productVariant->id }}">Submit</button>
 
@@ -94,11 +101,12 @@
                         proId: $('#proId').val(),
                         price: $('#price').val(),
                         stock: $('#stock').val(),
+
                     },
                     success: function(response) {
                         if (response.success) {
                             toastr.success(' Product Variant updated successfully.');
-                            $('#productVariantForm')[0].reset(); // Reset the form
+                            $('#productVariantForm')[0].reload();
                         } else {
                             toastr.error(response.message || 'An error occurred while updating.');
                         }
@@ -109,34 +117,33 @@
                 });
             }
 
-            // Form validation function
             function validateForm() {
                 let variantName = $('#variantName').val().trim();
                 let proId = $('#proId').val();
                 let price = $('#price').val().trim();
                 let stock = $('#stock').val().trim();
 
-
-
                 if (!variantName) {
                     toastr.error('Please enter product variant name.');
                     return false;
                 }
+
 
                 if (!proId) {
                     toastr.error('Please choose an product.');
                     return false;
                 }
                 if (!price) {
-                    toastr.error('Please enter product price.');
+                    toastr.error('Please enter product variant price.');
                     return false;
                 }
                 if (!stock) {
-                    toastr.error('Please enter product stock.');
+                    toastr.error('Please enter product variant stock.');
                     return false;
                 }
 
-                return true; // Form is valid
+
+                return true;
             }
         });
     </script>

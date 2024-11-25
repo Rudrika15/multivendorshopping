@@ -40,7 +40,10 @@
                     <select name="cat_id" id="cat_id" class="form-control " style="background-color: #30333a">
                         <option disabled selected>select category</option>
                         @foreach ($categories as $category)
-                            <option value="{{ $category->id }}">{{ $category->categoryName }}</option>
+                            <option value="{{ $category->id }}"
+                                {{ $category->id == $product->categoryId ? 'selected' : '' }}>
+                                {{ $category->categoryName }}
+                            </option>
                         @endforeach
 
                     </select>
@@ -98,7 +101,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success(' Product  updated successfully.');
-                            $('#productForm')[0].reset();
+                            $('#productForm')[0].reload();
                         } else {
                             toastr.error(response.message || 'An error occurred while updating.');
                         }
@@ -118,7 +121,7 @@
 
 
                 if (!name) {
-                    toastr.error('Please enter product  name.');
+                    toastr.error('Please enter product name.');
                     return false;
                 }
                 if (!description) {

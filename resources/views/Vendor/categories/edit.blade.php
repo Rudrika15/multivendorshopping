@@ -105,7 +105,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success(' category updated successfully.');
-                            $('#categoryForm')[0].reset();
+                            $('#categoryForm')[0].reload();
                         } else {
                             toastr.error(response.message || 'An error occurred while updating.');
                         }

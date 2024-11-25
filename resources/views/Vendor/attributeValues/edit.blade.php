@@ -32,7 +32,10 @@
                     <select name="attrId" id="attrId" class="form-control bg-dark">
                         <option disabled selected>Select attribute</option>
                         @foreach ($attributes as $attribute)
-                            <option value="{{ $attribute->id }}">{{ $attribute->name }}</option>
+                            <option value="{{ $attribute->id }}"
+                                {{ $attribute->id == $attributeValue->attributeId ? 'selected' : '' }}>
+                                {{ $attribute->name }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
@@ -75,7 +78,7 @@
                     success: function(response) {
                         if (response.success) {
                             toastr.success('Attribute Value updated successfully.');
-                            $('#attributeValueForm')[0].reset();
+                            $('#attributeValueForm')[0].reload();
                         } else {
                             toastr.error(response.message || 'An error occurred while updating.');
                         }
