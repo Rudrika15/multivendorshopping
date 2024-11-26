@@ -100,11 +100,9 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            toastr.success(' Product  updated successfully.');
-                            $('#productForm')[0].reload();
-                        } else {
-                            toastr.error(response.message || 'An error occurred while updating.');
+                            // $('#productForm')[0].reload();
                         }
+                        window.location.href = "{{ route('product.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');

@@ -96,7 +96,9 @@ class ProductVariantController extends Controller
         $productVariant->price = $request->price;
         $productVariant->stock = $request->stock;
         $productVariant->save();
-        return response()->json(['success' => true, 'message' => 'Product Variant updated successfully.']);
+        // return response()->json(['success' => true, 'message' => 'Product Variant updated successfully.']);
+        // return redirect()->route('productVariant.index')
+        //     ->with('success', 'Product Variant Updated Successfully');
     }
 
 

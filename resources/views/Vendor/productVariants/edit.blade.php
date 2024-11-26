@@ -105,11 +105,9 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            toastr.success(' Product Variant updated successfully.');
                             $('#productVariantForm')[0].reload();
-                        } else {
-                            toastr.error(response.message || 'An error occurred while updating.');
                         }
+                        window.location.href = "{{ route('productVariant.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');

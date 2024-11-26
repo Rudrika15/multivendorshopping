@@ -77,11 +77,9 @@
                     },
                     success: function(response) {
                         if (response.success) {
-                            toastr.success('Attribute Value updated successfully.');
-                            $('#attributeValueForm')[0].reload();
-                        } else {
-                            toastr.error(response.message || 'An error occurred while updating.');
+                            // $('#attributeValueForm')[0].reload();
                         }
+                        window.location.href = "{{ route('attributeValue.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');
