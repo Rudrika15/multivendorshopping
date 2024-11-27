@@ -30,7 +30,7 @@
                             style="background-color: #30333a">
                     </div>
                 </div>
-                <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
+                {{-- <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
                     <div class="form-check">
                         <label>
                             <input class="form-check-input" name="parentId" type="checkbox" id="flexCheckDefault"
@@ -49,7 +49,7 @@
                             @endforeach
                         </select>
                     </div>
-                </div>
+                </div> --}}
                 <div class="col-xs-12 col-sm-12 col-md-12 mt-3">
 
                     <img src="{{ asset('categories') }}/{{ $category->categoryIcon }}" style="width: 100px" alt="">
@@ -106,9 +106,9 @@
                         if (response.success) {
                             toastr.success(' category updated successfully.');
                             $('#categoryForm')[0].reload();
-                        } else {
-                            toastr.error(response.message || 'An error occurred while updating.');
                         }
+
+                        // window.location.href = "{{ route('category.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');

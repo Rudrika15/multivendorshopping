@@ -91,28 +91,39 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-
         return $request;
-        $id  = $request->categoryId;
-        $category = Category::find($id);
+        $category = Category::find($request->id);
         $category->categoryName =  $request->categoryName;
 
-
         if ($request->hasFile('photo')) {
+            $destination = public_path() . '/asset/categories/' . $category->categoryIcon;
+            if ($file::exists($destination)) {
+                $file::delete($destination);
+            }
             $file = $request->file('photo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('categories'), $filename);
-            $category->categoryIcon = $filename;
-        }
-        if ($request->parentId == "on") {
-            $category->parentId = $request->parentCategory;
-        } else {
-            $category->parentId = "0";
+            $file_name = time() . '.' . $image->getClientOriginalExtension();
+            $file->move(public_path() . '/assets/categories/', $file_name);
+            $category->categoryIcon = $file_name;
         }
         $category->save();
 
-        return redirect()->route('category.index')
-            ->with('success', 'Category  Updated Successfully');
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $file->move(public_path('categories'), $filename);
+        //     $category->categoryIcon = $filename;
+        // }
+        // if ($request->parentId == "on") {
+        //     $category->parentId = $request->parentCategory;
+        // } else {
+        //     $category->parentId = "0";
+        // }
+        // $category->save();
+        // return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
+
+
+        // return redirect()->route('category.index')
+        //     ->with('success', 'Category  Updated Successfully');
     }
 
     public function destroy($id)
