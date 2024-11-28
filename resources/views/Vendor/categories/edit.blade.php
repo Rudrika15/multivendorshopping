@@ -78,53 +78,33 @@
             }
         }
 
+        function updatecategory() {
+            var url = "{{ route('category.update') }}";
+            var photo = $('#photo').val();
+            var photoPath = 'categories/' + photo;
 
-        $(document).ready(function() {
+            $.ajax({
+                url: url,
+                type: "POST",
+                cache: false,
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: $('#categoryId').val(),
+                    categoryName: $('#categoryName').val(),
+                    photo: photoPath
+                },
+                success: function(response) {
+                    if (response.success) {
+                        toastr.success('Category updated successfully.');
+                        $('#categoryForm')[0].reload();
+                    }
 
-            $('#updateBtn').on('click', function(e) {
-                e.preventDefault();
-
-                if (validateForm()) {
-                    updatecategory();
+                    window.location.href = "{{ route('category.index') }}";
+                },
+                error: function(xhr) {
+                    toastr.error('An error occurred. Please try again.');
                 }
             });
-
-            function updatecategory() {
-                var url = "{{ route('category.update') }}";
-
-                $.ajax({
-                    url: url,
-                    type: "POST",
-                    cache: false,
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: $('#categoryId').val(),
-                        categoryName: $('#categoryName').val(),
-                        photo: $('#photo').val(),
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            toastr.success(' category updated successfully.');
-                            $('#categoryForm')[0].reload();
-                        }
-
-                        // window.location.href = "{{ route('category.index') }}";
-                    },
-                    error: function(xhr) {
-                        toastr.error('An error occurred. Please try again.');
-                    }
-                });
-            }
-
-            function validateForm() {
-                let categoryName = $('#categoryName').val().trim();
-
-                if (!categoryName) {
-                    toastr.error('Please enter category name.');
-                    return false;
-                }
-                return true;
-            }
-        });
+        }
     </script>
 @endsection
