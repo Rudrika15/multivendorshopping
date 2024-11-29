@@ -58,8 +58,6 @@ class StoreController extends Controller
         $store->save();
 
 
-
-
-        return redirect()->back()->with('success', 'Store Add Successfully');
+        return response()->json(['success' => 'Store Created Successfully.']);
     }
 }

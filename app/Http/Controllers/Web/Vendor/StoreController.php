@@ -14,7 +14,6 @@ class StoreController extends Controller
     function __construct()
     {
         $this->middleware('permission:store-profile', ['only' => ['profile', 'updateProfile']]);
-
     }
 
 
@@ -58,6 +57,6 @@ class StoreController extends Controller
 
 
 
-        return redirect()->back()->with('success', 'Profile Updated Successfully');
+        return response()->json(['success' => 'Store Created Successfully.']);
     }
 }

@@ -100,8 +100,25 @@ class CategoryController extends Controller
             $file->move(public_path('categories'), $filename);
             $category->categoryIcon = $filename;
         }
+
+        // $photo = $request->file('photo');
+        // $imagename = time() . '.' . $photo->getClientOriginalExtension();
+
+        // $destinationPath = public_path('categories');
+        // $thumb_img = $photo::make($photo->getRealPath());
+        // $thumb_img->save($destinationPath . '/' . $imagename, 80);
+
+        // $destinationPath = public_path('categories');
+        // $photo->move($destinationPath, $imagename);
+
         $category->save();
 
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $file->move(public_path('categories'), $filename);
+        //     $category->categoryIcon = $filename;
+        // }
 
         // if ($request->hasFile('photo')) {
 

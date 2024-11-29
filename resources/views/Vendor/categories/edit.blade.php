@@ -68,43 +68,63 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
 
     <script>
-        function checkbox() {
-            document.getElementById('flexCheckDefault');
-            const dropdownDiv = document.getElementById('dropdownDiv');
-            if (flexCheckDefault.checked) {
-                dropdownDiv.style.display = 'block';
-            } else {
-                dropdownDiv.style.display = 'none';
-            }
-        }
+        // function checkbox() {
+        //     document.getElementById('flexCheckDefault');
+        //     const dropdownDiv = document.getElementById('dropdownDiv');
+        //     if (flexCheckDefault.checked) {
+        //         dropdownDiv.style.display = 'block';
+        //     } else {
+        //         dropdownDiv.style.display = 'none';
+        //     }
+        // }
+        $(document).ready(function() {
 
-        function updatecategory() {
-            var url = "{{ route('category.update') }}";
-            var photo = $('#photo').val();
-            var photoPath = 'categories/' + photo;
+            $('#updateBtn').on('click', function(e) {
+                e.preventDefault();
 
-            $.ajax({
-                url: url,
-                type: "POST",
-                cache: false,
-                data: {
-                    _token: '{{ csrf_token() }}',
-                    id: $('#categoryId').val(),
-                    categoryName: $('#categoryName').val(),
-                    photo: photoPath
-                },
-                success: function(response) {
-                    if (response.success) {
-                        toastr.success('Category updated successfully.');
-                        $('#categoryForm')[0].reload();
-                    }
-
-                    window.location.href = "{{ route('category.index') }}";
-                },
-                error: function(xhr) {
-                    toastr.error('An error occurred. Please try again.');
+                if (validateForm()) {
+                    updateCategory();
                 }
             });
-        }
+
+            function updateCategory() {
+                console.log('hello');
+                var url = "{{ route('category.update') }}";
+                var photo = $('#photo').val();
+                var photoPath = 'categories/' + photo;
+                $.ajax({
+                    url: url,
+                    type: "POST",
+                    cache: false,
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        id: $('#categoryId').val(),
+                        categoryName: $('#categoryName').val(),
+                        photo: $('#photo').val(),
+
+                        photo: $('#photopath')
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            $('#categoryForm')[0].reload();
+                        }
+                        // window.location.href = "{{ route('category.index') }}";
+                    },
+                    error: function(xhr) {
+                        toastr.error('An error occurred. Please try again.');
+                    }
+                });
+            }
+
+            function validateForm() {
+                let categoryName = $('#categoryName').val().trim();
+
+                if (!categoryName) {
+                    toastr.error('Please enter category name.');
+                    return false;
+                }
+                return true;
+            }
+        });
     </script>
 @endsection
