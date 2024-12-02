@@ -88,21 +88,21 @@
             });
 
             function updateCategory() {
-                console.log('hello');
                 var url = "{{ route('category.update') }}";
+                var formData = new FormData($('#categoryForm'));
                 var photo = $('#photo').val();
                 var photoPath = 'categories/' + photo;
                 $.ajax({
                     url: url,
                     type: "POST",
+                    data: formData,
                     cache: false,
                     data: {
                         _token: '{{ csrf_token() }}',
                         id: $('#categoryId').val(),
                         categoryName: $('#categoryName').val(),
                         photo: $('#photo').val(),
-
-                        photo: $('#photopath')
+                        // photo: $('#photopath')
                     },
                     success: function(response) {
                         if (response.success) {

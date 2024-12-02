@@ -100,6 +100,7 @@ class CategoryController extends Controller
             $file->move(public_path('categories'), $filename);
             $category->categoryIcon = $filename;
         }
+        $category->save();
 
         // $photo = $request->file('photo');
         // $imagename = time() . '.' . $photo->getClientOriginalExtension();
@@ -111,7 +112,6 @@ class CategoryController extends Controller
         // $destinationPath = public_path('categories');
         // $photo->move($destinationPath, $imagename);
 
-        $category->save();
 
         // if ($request->hasFile('photo')) {
         //     $file = $request->file('photo');
