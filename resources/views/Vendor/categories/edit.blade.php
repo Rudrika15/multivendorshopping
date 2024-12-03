@@ -78,7 +78,6 @@
         //     }
         // }
         $(document).ready(function() {
-
             $('#updateBtn').on('click', function(e) {
                 e.preventDefault();
 
@@ -89,26 +88,33 @@
 
             function updateCategory() {
                 var url = "{{ route('category.update') }}";
-                var formData = new FormData($('#categoryForm'));
-                var photo = $('#photo').val();
-                var photoPath = 'categories/' + photo;
+                var formData = new FormData($('#categoryForm')[0]);
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('id', $('#categoryId').val());
+                formData.append('categoryName', $('#categoryName').val());
+                formData.append('photo', $('#photo').val());
+
+
+                var photo = $('#photo')[0].files[0];
+                if (photo) {
+                    formData.append('photo', photo);
+                }
+
                 $.ajax({
                     url: url,
                     type: "POST",
                     data: formData,
-                    cache: false,
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: $('#categoryId').val(),
-                        categoryName: $('#categoryName').val(),
-                        photo: $('#photo').val(),
-                        // photo: $('#photopath')
-                    },
+                    processData: false,
+                    // contentType: false,
+                    contentType: "multipart / form - data",
                     success: function(response) {
                         if (response.success) {
-                            $('#categoryForm')[0].reload();
+                            toastr.success('Category updated successfully.');
+
                         }
-                        // window.location.href = "{{ route('category.index') }}";
+                        // window.location.href =
+                        //     "{{ route('category.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');
@@ -120,9 +126,10 @@
                 let categoryName = $('#categoryName').val().trim();
 
                 if (!categoryName) {
-                    toastr.error('Please enter category name.');
+                    toastr.error('Please enter a category name.');
                     return false;
                 }
+
                 return true;
             }
         });

@@ -13,10 +13,10 @@ class CategoryController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:category-list|category-create|category-edit|category-delete', ['only' => ['index']]);
+        $this->middleware('permission:category-list|category-create|category-edit', ['only' => ['index']]);
         $this->middleware('permission:category-create', ['only' => ['create', 'store']]);
         $this->middleware('permission:category-edit', ['only' => ['edit', 'update']]);
-        $this->middleware('permission:category-delete', ['only' => ['destroy']]);
+        // $this->middleware('permission:category-delete', ['only' => ['destroy']]);
     }
     public function index()
     {
@@ -94,12 +94,14 @@ class CategoryController extends Controller
         return $request;
         $category = Category::find($request->id);
         $category->categoryName =  $request->categoryName;
-        if ($request->hasFile('photo')) {
-            $file = $request->file('photo');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('categories'), $filename);
-            $category->categoryIcon = $filename;
-        }
+        $category->categoryIcon =  $request->photo;
+
+        // if ($request->hasFile('photo')) {
+        //     $file = $request->file('photo');
+        //     $filename = time() . '.' . $file->getClientOriginalExtension();
+        //     $file->move(public_path('categories'), $filename);
+        //     $category->categoryIcon = $filename;
+        // }
         $category->save();
 
         // $photo = $request->file('photo');
