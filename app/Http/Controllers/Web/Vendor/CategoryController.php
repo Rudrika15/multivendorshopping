@@ -91,7 +91,6 @@ class CategoryController extends Controller
 
     public function update(Request $request)
     {
-        return $request;
         $category = Category::find($request->id);
         $category->categoryName =  $request->categoryName;
         $category->categoryIcon =  $request->photo;
@@ -115,25 +114,8 @@ class CategoryController extends Controller
         // $photo->move($destinationPath, $imagename);
 
 
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $file->move(public_path('categories'), $filename);
-        //     $category->categoryIcon = $filename;
-        // }
 
-        // if ($request->hasFile('photo')) {
-
-        //     $file              = $request->file('photo');
-
-        //     $original_filename = $file->getClientOriginalName();
-        //     // $mime           = $file->getMimeType();  // Suggestion
-        //     $extention         = $file->getExtension();
-        //     // $size           = $file->getClientSize(); // Suggestion
-
-        //     $stored_filename   = $original_filename; // md5($original_filename); // Suggestion
-        //     $file_path         = storage_path('public/categories/');
-
+      
 
         //     if (Storage::disk('local')
         //               ->exists("public/categories/{$stored_filename}.{$extention}"))
@@ -146,21 +128,7 @@ class CategoryController extends Controller
         //  }
 
 
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $destination = public_path() . 'categories' . $category->categoryIcon;
-        //     if ($file::exists($destination)) {
-        //         $file::delete($destination);
-        //     }
-        //     $file_name = time() . '.' . $file->getClientOriginalExtension();
-        //     $file->move(public_path() . 'categories', $file_name);
-        //     $category->categoryIcon = $file_name;
-        // }
-        // if ($request->parentId == "on") {
-        //     $category->parentId = $request->parentCategory;
-        // } else {
-        //     $category->parentId = "0";
-        // }
+
         // $category->save();
         // return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
 
