@@ -10,7 +10,7 @@
         </div>
     </div>
     <div class="bg-secondary rounded h-100 p-4 ">
-        <form id="categoryForm" action="{{ route('category.update') }}" method="post">
+        <form id="categoryForm" action="{{ route('category.update') }}" method="post" enctype="multipart/form-data">
             @csrf
             <input type="hidden" value="{{ $category->id }}" name="categoryId" id="categoryId">
 
@@ -27,7 +27,7 @@
                     <div class="form-group">
                         <strong>Image:<sup class="text-danger">*</sup></strong>
                         <input type="file" name="photo" id="photo" class="form-control"
-                            style="background-color: #30333a">
+                            style="background-color: #30333a" accept="image/*">
                     </div>
                 </div>
                 {{-- <div class="col-xs-12 col-sm-12 col-md-12 mt-2">
@@ -77,6 +77,52 @@
         //         dropdownDiv.style.display = 'none';
         //     }
         // }
+
+        //     $(document).ready(function() {
+
+        //         $('#updateBtn').on('click', function(e) {
+        //             e.preventDefault();
+
+        //             if (validateForm()) {
+        //                 updateCategory();
+        //             }
+        //         });
+
+        //         function updateCategory() {
+        //             var url = "{{ route('category.update') }}";
+
+        //             $.ajax({
+        //                 url: url,
+        //                 type: "POST",
+        //                 cache: false,
+        //                 data: {
+        //                     _token: '{{ csrf_token() }}',
+        //                     id: $('#categoryId').val(),
+        //                     categoryName: $('#categoryName').val(),
+        //                     photo: $('#photo').val()
+        //                 },
+        //                 success: function(response) {
+        //                     if (response.success) {
+        //                         // $('#productForm')[0].reload();
+        //                     }
+        //                     // window.location.href = "{{ route('category.index') }}";
+        //                 },
+        //                 error: function(xhr) {
+        //                     toastr.error('An error occurred. Please try again.');
+        //                 }
+        //             });
+        //         }
+
+        //         function validateForm() {
+        //             let categoryName = $('#categoryName').val().trim();
+
+        //             if (!categoryName) {
+        //                 toastr.error('Please enter category name.');
+        //                 return false;
+        //             }
+        //             return true;
+        //         }
+        //     });
         $(document).ready(function() {
             $('#updateBtn').on('click', function(e) {
                 e.preventDefault();
@@ -90,34 +136,36 @@
                 var url = "{{ route('category.update') }}";
                 var formData = new FormData($('#categoryForm')[0]);
 
+                // Add CSRF token and other fields
                 formData.append('_token', '{{ csrf_token() }}');
                 formData.append('id', $('#categoryId').val());
                 formData.append('categoryName', $('#categoryName').val());
-                formData.append('photo', $('#photo').val());
 
-
-                var photo = $('#photo')[0].files[0];
-                if (photo) {
-                    formData.append('photo', photo);
+                // Append the file if selected
+                var photoInput = $('#photo')[0];
+                if (photoInput.files && photoInput.files[0]) {
+                    console.log('File selected:', photoInput.files[0]);
+                    formData.append('photo', photoInput.files[0]);
+                } else {
+                    console.log('No file selected');
                 }
 
                 $.ajax({
                     url: url,
                     type: "POST",
                     data: formData,
-                    processData: false,
-                    // contentType: false,
-                    contentType: "multipart / form - data",
+                    processData: false, // Prevent automatic data processing
+                    contentType: false, // Let FormData set the content type
                     success: function(response) {
                         if (response.success) {
                             toastr.success('Category updated successfully.');
-
+                        } else {
+                            toastr.error(response.message || 'An error occurred. Please try again.');
                         }
-                        // window.location.href =
-                        //     "{{ route('category.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');
+                        console.error(xhr.responseText); // Log the error for debugging
                     }
                 });
             }

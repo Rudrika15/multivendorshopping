@@ -89,50 +89,79 @@ class CategoryController extends Controller
     }
 
 
+    // public function update(Request $request)
+    // {
+    //     return $request;
+    //     $category = Category::find($request->id);
+    //     $category->categoryName =  $request->categoryName;
+    //     // $category->categoryIcon =  $request->photo;
+    //     // if ($request->hasFile('photo')) {
+    //     //     $file = $request->file('photo');
+    //     //     $filename = time() . '.' . $file->getClientOriginalExtension();
+    //     //     $file->move(public_path('categories'), $filename);
+    //     //     $category->categoryIcon = $filename;
+    //     // }
+
+    //     $destination = public_path() . '/assets/categories/' . $category->categoryIcon;
+    //     if (file::exists($destination)) {
+    //         file::delete($destination);
+    //     }
+    //     $file = $request->file('photo');
+    //     $file_name = time() . '.' . $image->getClientOriginalExtension();
+    //     $file->move(public_path() . '/assets/categories/', $file_name);
+    //     $category->categporyIcon = $file_name;
+
+    //     // $category->save();
+
+    //     // $photo = $request->file('photo');
+    //     // $imagename = time() . '.' . $photo->getClientOriginalExtension();
+
+    //     // $destinationPath = public_path('categories');
+    //     // $thumb_img = $photo::make($photo->getRealPath());
+    //     // $thumb_img->save($destinationPath . '/' . $imagename, 80);
+
+    //     // $destinationPath = public_path('categories');
+    //     // $photo->move($destinationPath, $imagename);
+
+
+
+
+
+    //     //     if (Storage::disk('local')
+    //     //               ->exists("public/categories/{$stored_filename}.{$extention}"))
+    //     //     {
+    //     //         Storage::disk('local')
+    //     //               ->delete("public/categories/{$recordSet->stored_filename}.{$extention}");
+    //     //     }
+    //     //     $file_moved = $file->move($file_path, "{$stored_filename}.{$extention}");
+    //     //     $category->categoryIcon = "{$stored_filename}.{$extention}";
+    //     //  }
+
+
+
+    //     // $category->save();
+    //     // return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
+
+    // }
+
+
     public function update(Request $request)
     {
-        $category = Category::find($request->id);
-        $category->categoryName =  $request->categoryName;
-        $category->categoryIcon =  $request->photo;
-
-        // if ($request->hasFile('photo')) {
-        //     $file = $request->file('photo');
-        //     $filename = time() . '.' . $file->getClientOriginalExtension();
-        //     $file->move(public_path('categories'), $filename);
-        //     $category->categoryIcon = $filename;
-        // }
-        $category->save();
-
-        // $photo = $request->file('photo');
-        // $imagename = time() . '.' . $photo->getClientOriginalExtension();
-
-        // $destinationPath = public_path('categories');
-        // $thumb_img = $photo::make($photo->getRealPath());
-        // $thumb_img->save($destinationPath . '/' . $imagename, 80);
-
-        // $destinationPath = public_path('categories');
-        // $photo->move($destinationPath, $imagename);
 
 
+        if ($request->hasFile('photo')) {
+            $file = $request->file('photo');
+            $filePath = $file->store('categories', 'public');
+            return response()->json([
+                'success' => true,
+                'message' => 'Category updated successfully.',
+                'filePath' => $filePath,
+            ]);
+        }
 
-      
-
-        //     if (Storage::disk('local')
-        //               ->exists("public/categories/{$stored_filename}.{$extention}"))
-        //     {
-        //         Storage::disk('local')
-        //               ->delete("public/categories/{$recordSet->stored_filename}.{$extention}");
-        //     }
-        //     $file_moved = $file->move($file_path, "{$stored_filename}.{$extention}");
-        //     $category->categoryIcon = "{$stored_filename}.{$extention}";
-        //  }
-
-
-
-        // $category->save();
-        // return response()->json(['status' => 201, 'success' => 'Category Updated Successfully!']);
-
+        return response()->json(['success' => true, 'message' => 'Category updated without a photo.']);
     }
+
 
     public function destroy($id)
     {
