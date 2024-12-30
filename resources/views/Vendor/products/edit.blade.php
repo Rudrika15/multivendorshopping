@@ -74,7 +74,6 @@
 
     <script>
         $(document).ready(function() {
-
             $('#updateBtn').on('click', function(e) {
                 e.preventDefault();
 
@@ -85,27 +84,41 @@
 
             function updateProduct() {
                 var url = "{{ route('product.update') }}";
+                var formData = new FormData($('#productForm')[0]);
+
+                formData.append('_token', '{{ csrf_token() }}');
+                formData.append('id', $('#productId').val());
+                formData.append('name', $('#name').val());
+                formData.append('description', $('#description').val());
+                formData.append('price', $('#price').val());
+                formData.append('cat_id', $('#cat_id').val());
+
+
+                var photoInput = $('#photo')[0];
+                if (photoInput.files && photoInput.files[0]) {
+                    console.log('File selected:', photoInput.files[0]);
+                    formData.append('categoryIcon', photoInput.files[0]);
+                } else {
+                    console.log('No file selected');
+                }
 
                 $.ajax({
                     url: url,
                     type: "POST",
-                    cache: false,
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: $('#productId').val(),
-                        name: $('#name').val(),
-                        description: $('#description').val(),
-                        cat_id: $('#cat_id').val(),
-                        price: $('#price').val(),
-                    },
+                    data: formData,
+                    processData: false,
+                    contentType: false,
                     success: function(response) {
                         if (response.success) {
-                            // $('#productForm')[0].reload();
+                            window.location.href = "{{ route('product.index') }}";
+
+                        } else {
+                            toastr.error(response.message || 'An error occurred. Please try again.');
                         }
-                        window.location.href = "{{ route('product.index') }}";
                     },
                     error: function(xhr) {
                         toastr.error('An error occurred. Please try again.');
+                        console.error(xhr.responseText);
                     }
                 });
             }
@@ -113,32 +126,25 @@
             function validateForm() {
                 let name = $('#name').val().trim();
                 let description = $('#description').val().trim();
-                let cat_id = $('#cat_id').val();
                 let price = $('#price').val().trim();
 
-
-
                 if (!name) {
-                    toastr.error('Please enter product name.');
+                    toastr.error('Please enter a product name.');
                     return false;
                 }
                 if (!description) {
-                    toastr.error('Please enter product description.');
-                    return false;
-                }
-
-                if (!cat_id) {
-                    toastr.error('Please choose an category.');
+                    toastr.error('Please enter a product deescription.');
                     return false;
                 }
                 if (!price) {
-                    toastr.error('Please enter product price.');
+                    toastr.error('Please enter a product price.');
                     return false;
                 }
-
+                
 
                 return true;
             }
         });
     </script>
 @endsection
+
